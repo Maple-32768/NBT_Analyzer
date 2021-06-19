@@ -1,15 +1,13 @@
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class TAG_Short {
 	public Tag_Header header;
 	short value;
 
 	public TAG_Short(byte[] data) {
-		int header_size = (data[1] << 8) + data[2] + 3;
-		byte[] head = new byte[header_size];
-		for(int i = 0; i < header_size; i++) {
-			head[i] = data[i];
-		}
-		header = new Tag_Header(head);
-		value = (short) ((data[header_size + 1] << 8) + data[header_size + 2]);
+		int header_size = 3 + ByteBuffer.wrap(Arrays.copyOfRange(data, 1, 2)).getShort();
+		header = new Tag_Header(Arrays.copyOfRange(data, 0, header_size));
+		value = ByteBuffer.wrap(Arrays.copyOfRange(data, header_size + 1, data.length)).getShort();
 	}
 }
