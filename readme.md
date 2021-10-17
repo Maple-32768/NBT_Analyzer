@@ -1,3 +1,3 @@
-#Maple32768 NBT Analyzer
+# Maple32768 NBT Analyzer
 
 ## ©2021 Maple32768
