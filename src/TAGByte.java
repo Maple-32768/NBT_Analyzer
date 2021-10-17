@@ -1,10 +1,15 @@
-public class TAGByte extends TAGComponent{
-	public TAGHeader header;
-	byte data;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
-	public TAGByte(TAGHeader header, byte data) {
+public class TAGByte extends TAGComponent{
+	public static final int data_size = 1;
+
+	public TAGHeader header;
+	byte value;
+
+	public TAGByte(TAGHeader header, byte[] data) {
 		this.header = header;
-		this.data = data;
+		this.value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).get();
 	}
 
 	@Override
@@ -14,6 +19,6 @@ public class TAGByte extends TAGComponent{
 
 	@Override
 	public String toString() {
-		return String.valueOf(this.data);
+		return String.valueOf(this.value);
 	}
 }
