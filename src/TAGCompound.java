@@ -9,4 +9,14 @@ public class TAGCompound extends TAGComponent{
         this.header = TAGHeader.getHeader(data);
         this.data_raw = data;
     }
+
+    @Override
+    public TAGHeader getHeader() {
+        return header;
+    }
+
+    @Override
+    public String toString() {
+        return null;
+    }
 }

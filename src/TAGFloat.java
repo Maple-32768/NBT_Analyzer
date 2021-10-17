@@ -10,4 +10,14 @@ public class TAGFloat extends TAGComponent{
 		header = new TAGHeader(Arrays.copyOfRange(data, 0, header_size));
 		value = ByteBuffer.wrap(Arrays.copyOfRange(data, header_size + 1, data.length)).getFloat();
 	}
+
+	@Override
+	public TAGHeader getHeader() {
+		return header;
+	}
+
+	@Override
+	public String toString() {
+		return null;
+	}
 }

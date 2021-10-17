@@ -12,4 +12,14 @@ public class TAGByteArray extends TAGComponent{
 		value = Arrays.copyOfRange(data, header_size + 5, data.length);
 		length = value.length;
 	}
+
+	@Override
+	public TAGHeader getHeader() {
+		return this.header;
+	}
+
+	@Override
+	public String toString() {
+		return null;
+	}
 }
