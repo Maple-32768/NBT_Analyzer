@@ -2,7 +2,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class TAGByte extends TAGComponent{
-	public static final int data_size = Byte.SIZE;
+	public static final int data_size = 1;
 
 	public TAGHeader header;
 	byte value;
