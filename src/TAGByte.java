@@ -5,7 +5,7 @@ public class TAGByte extends TAGComponent{
 	public static final int data_size = 1;
 
 	public TAGHeader header;
-	byte value;
+	public byte value;
 
 	public TAGByte(TAGHeader header, byte[] data) {
 		this.header = header;

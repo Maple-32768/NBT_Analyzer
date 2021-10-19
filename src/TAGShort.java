@@ -5,7 +5,7 @@ public class TAGShort extends TAGComponent{
 	public static final int data_size = Short.SIZE / Byte.SIZE;
 
 	public TAGHeader header;
-	short value;
+	public short value;
 
 	public TAGShort(TAGHeader header, byte[] data) {
 		this.header = header;

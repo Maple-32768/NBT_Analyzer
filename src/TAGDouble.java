@@ -5,7 +5,7 @@ public class TAGDouble extends TAGComponent{
 	public static final int data_size = Double.SIZE / Byte.SIZE;
 
 	public TAGHeader header;
-	double value;
+	public double value;
 
 	public TAGDouble(TAGHeader header, byte[] data) {
 		this.header = header;

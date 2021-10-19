@@ -5,7 +5,7 @@ public class TAGLong extends TAGComponent{
 	public static final int data_size = Long.SIZE / Byte.SIZE;
 
 	public TAGHeader header;
-	long value;
+	public long value;
 
 	public TAGLong(TAGHeader header, byte[] data) {
 		this.header = header;

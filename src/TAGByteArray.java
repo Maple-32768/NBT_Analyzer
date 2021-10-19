@@ -7,8 +7,8 @@ public class TAGByteArray extends TAGComponent{
 	public static final int data_size = 1;
 
 	public TAGHeader header;
-	int length;
-	byte[] value;
+	public int length;
+	public byte[] value;
 
 	public TAGByteArray(TAGHeader header, byte[] data) {
 		this.header = header;

@@ -5,7 +5,7 @@ public class TAGInt extends TAGComponent{
 	public static final int data_size = Integer.SIZE / Byte.SIZE;
 
 	public TAGHeader header;
-	int value;
+	public int value;
 
 	public TAGInt(TAGHeader header, byte[] data) {
 		this.header = header;
