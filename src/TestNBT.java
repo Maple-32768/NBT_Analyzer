@@ -20,7 +20,7 @@ public class TestNBT {
 	public static TAGComponent Analyze(byte[] data){
 		TAGComponent result = null;
 		TAGHeader header = TAGHeader.getHeader(data);
-		byte[] data1 = Arrays.copyOfRange(data, header.length, data.length);
+		byte[] data1 = Arrays.copyOfRange(data, header.size, data.length);
 		switch (header.type){
 			case 0:
 				//todo:tag_end
