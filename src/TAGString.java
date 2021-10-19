@@ -1,15 +1,27 @@
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class TAGString {
-	public TAGHeader header;
-	short value_size;
-	String value;
+public class TAGString extends TAGComponent{
+	public static final int length_size = Short.SIZE /Byte.SIZE;
+	public static final int data_size = 1;
 
-	public TAGString(byte[] data) {
-		int header_size = 3 + ByteBuffer.wrap(Arrays.copyOfRange(data, 1, 2)).getShort();
-		header = new TAGHeader(Arrays.copyOfRange(data, 0, header_size));
-		value_size = ByteBuffer.wrap(Arrays.copyOfRange(data, header_size + 1, header_size + 3)).getShort();
-		value = new String(Arrays.copyOfRange(data, header_size + 3, data.length));
+	public TAGHeader header;
+	public short length;
+	public String value;
+
+	public TAGString(TAGHeader header, byte[] data) {
+		this.header = header;
+		this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getShort();
+		value = new String(Arrays.copyOfRange(data, length_size, length_size + length * data_size));
+	}
+
+	@Override
+	public TAGHeader getHeader() {
+		return this.header;
+	}
+
+	@Override
+	public String toString() {
+		return this.value;
 	}
 }
