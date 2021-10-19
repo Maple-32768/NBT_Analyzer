@@ -3,8 +3,9 @@ import java.util.Arrays;
 public class TestNBT {
 
 	public static void main(String[] args) {
-		// data << n : 127
-		byte[] data = {(byte)0x01,(byte)0x00,(byte)0x01,(byte)0x6e,(byte)0x7f,(byte)0xff};
+		//            type       ,name_length          ,name      ,value
+        //            2          ,01                   ,110(n)    ,数字
+		byte[] data = {(byte)0x03,(byte)0x00,(byte)0x01,(byte)0x6e,(byte)0x7f,(byte)0xff,(byte)0xff,(byte)0xff};
 		TAGComponent c = Analyze(data);
 		System.out.println(c.getHeader().tagName + " : " + c);
 	}
@@ -23,6 +24,11 @@ public class TestNBT {
 
 			case 2:
 				result = new TAGShort(header, data1);
+                break;
+
+            case 3:
+                result = new TAGInt(header, data1);
+                break;
 		}
 		return result;
 	}
