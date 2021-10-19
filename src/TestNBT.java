@@ -6,8 +6,8 @@ public class TestNBT {
 	public static void main(String[] args) {
 		//            type       ,name_length          ,name      ,value
         //            2          ,01                   ,110(n)    ,数字
-		byte[] data = {(byte)0x06,(byte)0x00,(byte)0x01,(byte)0x6e,(byte)0x41,(byte)0x61,(byte)0xfd,(byte)0x30,
-                (byte)0xc9,(byte)0xba,(byte)0x5e,(byte)0x35};
+		byte[] data = {(byte)0x07,(byte)0x00,(byte)0x01,(byte)0x6e,
+				(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x04,(byte)0x61,(byte)0x62,(byte)0x63,(byte)0x64};
 		TAGComponent c = Analyze(data);
 		System.out.println(c.getHeader().tagName + " : " + c);
 	}
@@ -42,6 +42,10 @@ public class TestNBT {
 
 			case 6:
 				result = new TAGDouble(header, data1);
+				break;
+
+			case 7:
+				result = new TAGByteArray(header, data1);
 				break;
 
 		}
