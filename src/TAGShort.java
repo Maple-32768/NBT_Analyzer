@@ -2,7 +2,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class TAGShort extends TAGComponent{
-	public static final int data_size = 2;
+	public static final int data_size = Short.SIZE / Byte.SIZE;
 
 	public TAGHeader header;
 	short value;
