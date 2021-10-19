@@ -1,11 +1,13 @@
 import java.util.Arrays;
+import java.nio.ByteBuffer;
 
 public class TestNBT {
 
 	public static void main(String[] args) {
 		//            type       ,name_length          ,name      ,value
         //            2          ,01                   ,110(n)    ,数字
-		byte[] data = {(byte)0x03,(byte)0x00,(byte)0x01,(byte)0x6e,(byte)0x7f,(byte)0xff,(byte)0xff,(byte)0xff};
+		byte[] data = {(byte)0x04,(byte)0x00,(byte)0x01,(byte)0x6e,(byte)0x7f,(byte)0xff,(byte)0xff,(byte)0xff,
+                (byte)0xff,(byte)0xff,(byte)0xff,(byte)0xff};
 		TAGComponent c = Analyze(data);
 		System.out.println(c.getHeader().tagName + " : " + c);
 	}
@@ -29,6 +31,11 @@ public class TestNBT {
             case 3:
                 result = new TAGInt(header, data1);
                 break;
+
+            case 4:
+                result = new TAGLong(header, data1);
+                break;
+
 		}
 		return result;
 	}
