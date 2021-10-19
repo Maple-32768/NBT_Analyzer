@@ -15,7 +15,7 @@ public class TAGByteArray extends TAGComponent{
 		this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getInt();
 		value = new byte[this.length];
 		for (int i = 0; i < this.length; i++){
-			value[i] = ByteBuffer.wrap(Arrays.copyOfRange(data, i + length_size, i +length_size + data_size)).get();
+			value[i] = ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).get();
 		}
 	}
 
