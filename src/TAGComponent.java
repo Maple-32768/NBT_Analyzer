@@ -58,6 +58,9 @@ public abstract class TAGComponent {
                 result = new TAGIntArray(header, data_temp);
                 break;
 
+            case 12:
+                result = new TAGLongArray(header, data_temp);
+                break;
         }
         return result;
     }
