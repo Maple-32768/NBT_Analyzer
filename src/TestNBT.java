@@ -1,20 +1,17 @@
-import java.util.Arrays;
-
 public class TestNBT {
 
 	public static void main(String[] args) {
-		//            type       ,name_length          ,name      ,value
-        //            2          ,01                   ,110(n)    ,数字
-		byte[] data = {(byte)0x0b,(byte)0x00,(byte)0x01,(byte)0x6e,
-				(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x05,
-				(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00,
-				(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x01,
-				(byte)0x7f,(byte)0xff,(byte)0xff,(byte)0xff,
-				(byte)0x80,(byte)0x00,(byte)0x00,(byte)0x00,
-				(byte)0xff,(byte)0xff,(byte)0xff,(byte)0xff
+		int[] data_raw = {
+				0x0a,0x00,0x01,0x6e,0x03,0x00,0x01,0x78,0x00,0x00,0x00,0x3d,
+				0x03,0x00,0x01,0x79,0x00,0x00,0x00,0x09,0x03,0x00,0x01,0x7a,
+				0xff,0xff,0xff,0xfa
 		};
+		byte[] data = new byte[data_raw.length];
+		for(int i = 0; i < data_raw.length; i++){
+			data[i] = (byte) data_raw[i];
+		}
 		TAGComponent c = TAGComponent.Analyze(data);
-		System.out.println(c.getHeader().tagName + " : " + c);
+		System.out.println((c.getHeader().tag_name != null ? c.getHeader().tag_name + " : " : "") + c);
 	}
 
 }
