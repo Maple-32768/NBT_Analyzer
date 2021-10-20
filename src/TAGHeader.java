@@ -20,4 +20,10 @@ public class TAGHeader {
 		return new TAGHeader(raw_data);
 	}
 
+	public static TAGHeader getNullHeader(byte type){
+		TAGHeader result = new TAGHeader(new byte[] {(byte)0x00});
+		result.type = type;
+		return result;
+	}
+
 }

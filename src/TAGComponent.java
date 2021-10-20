@@ -47,7 +47,7 @@ public abstract class TAGComponent {
                 break;
 
             case 9:
-                //todo:tag_list
+                result = new TAGList(header, data_temp);
                 break;
 
             case 10:
@@ -63,5 +63,75 @@ public abstract class TAGComponent {
                 break;
         }
         return result;
+    }
+
+    public static int getLength(byte type){
+        switch (type){
+            case 0:
+                return TAGEnd.size;
+
+            case 1:
+                return TAGByte.size;
+
+            case 2:
+                return TAGShort.size;
+
+            case 3:
+                return TAGInt.size;
+
+            case 4:
+                return TAGLong.size;
+
+            case 5:
+                return TAGFloat.size;
+
+            case 6:
+                return TAGDouble.size;
+
+            case 7:
+
+            case 8:
+
+            case 9:
+
+            case 10:
+
+            case 11:
+
+            case 12:
+
+            default:
+                return -1;
+
+        }
+    }
+
+    public static TAGComponent getNoHeaderComponent(byte type, byte[] data){
+        TAGHeader null_header = TAGHeader.getNullHeader(type);
+        switch (type){
+            case 0:
+                return new TAGEnd(null_header);
+
+            case 1:
+                return new TAGByte(null_header, data);
+
+            case 2:
+                return new TAGShort(null_header, data);
+
+            case 3:
+                return new TAGInt(null_header, data);
+
+            case 4:
+                return new TAGLong(null_header, data);
+
+            case 5:
+                return new TAGFloat(null_header, data);
+
+            case 6:
+                return new TAGDouble(null_header, data);
+
+            default:
+                return null;
+        }
     }
 }
