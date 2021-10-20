@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 public class TAGShort extends TAGComponent{
 	public static final int data_size = Short.SIZE / Byte.SIZE;
+	public static final int size = data_size;
 
 	public TAGHeader header;
 	public short value;
@@ -20,5 +21,10 @@ public class TAGShort extends TAGComponent{
 	@Override
 	public String toString() {
 		return String.valueOf(this.value);
+	}
+
+	@Override
+	public int getSize() {
+		return size;
 	}
 }

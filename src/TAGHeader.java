@@ -9,10 +9,10 @@ public class TAGHeader {
 
 	public TAGHeader(byte[] data) {
 		this.type = data[0];
+		if(this.type == 0x00) return;
 		this.name_size = ByteBuffer.wrap(Arrays.copyOfRange(data, 1, 3)).getShort();
-		if (name_size != 0) {
-			this.tag_name = new String(Arrays.copyOfRange(data, 3, 4 + name_size - 1));
-		}
+		if (name_size == 0) this.tag_name = null;
+		else this.tag_name = new String(Arrays.copyOfRange(data, 3, 4 + name_size - 1));
 		this.size = 3 + name_size;
 	}
 

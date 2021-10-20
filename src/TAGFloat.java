@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 public class TAGFloat extends TAGComponent{
 	public static final int data_size = Float.SIZE / Byte.SIZE;
+	public static final int size = data_size;
 
 	public TAGHeader header;
 	public float value;
@@ -20,5 +21,10 @@ public class TAGFloat extends TAGComponent{
 	@Override
 	public String toString() {
 		return String.valueOf(value);
+	}
+
+	@Override
+	public int getSize() {
+		return size;
 	}
 }

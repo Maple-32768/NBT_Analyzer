@@ -1,48 +1,49 @@
 import java.util.Arrays;
 
 public abstract class TAGComponent {
+    protected int size;
+    protected TAGHeader header;
+
     abstract public TAGHeader getHeader();
     abstract public String toString();
+    abstract public int getSize();
 
     public static TAGComponent Analyze(byte[] data){
         TAGComponent result = null;
         TAGHeader header = TAGHeader.getHeader(data);
-        byte[] data1 = Arrays.copyOfRange(data, header.length, data.length);
+        if(header.type == 0) return new TAGEnd(header);
+        byte[] data_temp = Arrays.copyOfRange(data, header.size, data.length);
         switch (header.type){
-            case 0:
-                //todo:tag_end
-                break;
-
             case 1:
-                result = new TAGByte(header, data1);
+                result = new TAGByte(header, data_temp);
                 break;
 
             case 2:
-                result = new TAGShort(header, data1);
+                result = new TAGShort(header, data_temp);
                 break;
 
             case 3:
-                result = new TAGInt(header, data1);
+                result = new TAGInt(header, data_temp);
                 break;
 
             case 4:
-                result = new TAGLong(header, data1);
+                result = new TAGLong(header, data_temp);
                 break;
 
             case 5:
-                result = new TAGFloat(header, data1);
+                result = new TAGFloat(header, data_temp);
                 break;
 
             case 6:
-                result = new TAGDouble(header, data1);
+                result = new TAGDouble(header, data_temp);
                 break;
 
             case 7:
-                result = new TAGByteArray(header, data1);
+                result = new TAGByteArray(header, data_temp);
                 break;
 
             case 8:
-                result = new TAGString(header, data1);
+                result = new TAGString(header, data_temp);
                 break;
 
             case 9:
@@ -50,11 +51,11 @@ public abstract class TAGComponent {
                 break;
 
             case 10:
-                //todo:tag_compound
+                result = new TAGCompound(header, data_temp);
                 break;
 
             case 11:
-                result = new TAGIntArray(header, data1);
+                result = new TAGIntArray(header, data_temp);
                 break;
 
         }

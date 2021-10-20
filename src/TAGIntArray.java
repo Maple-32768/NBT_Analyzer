@@ -10,10 +10,12 @@ public class TAGIntArray extends TAGComponent{
 	public TAGHeader header;
 	public int length;
 	public List<Integer> value;
+	public int size;
 
 	public TAGIntArray(TAGHeader header, byte[] data) {
 		this.header = header;
 		this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getInt();
+		this.size = data_size * this.length;
 		value = new ArrayList<>();
 		for (int i = 0; i < this.length; i++){
 			value.add(ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).getInt());
@@ -34,5 +36,10 @@ public class TAGIntArray extends TAGComponent{
 			result.append(this.value.get(i));
 		}
 		return result.append(']').toString();
+	}
+
+	@Override
+	public int getSize() {
+		return this.size;
 	}
 }

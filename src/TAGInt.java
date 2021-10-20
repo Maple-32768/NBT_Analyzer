@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 public class TAGInt extends TAGComponent{
 	public static final int data_size = Integer.SIZE / Byte.SIZE;
+	public static final int size = data_size;
 
 	public TAGHeader header;
 	public int value;
@@ -20,5 +21,10 @@ public class TAGInt extends TAGComponent{
 	@Override
 	public String toString() {
 		return String.valueOf(this.value);
+	}
+
+	@Override
+	public int getSize() {
+		return size;
 	}
 }
