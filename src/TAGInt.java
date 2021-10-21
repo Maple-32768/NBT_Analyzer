@@ -24,6 +24,11 @@ public class TAGInt extends TAGComponent{
 	}
 
 	@Override
+	public String toString(boolean json) {
+		return this.toString();
+	}
+
+	@Override
 	public int getSize() {
 		return size;
 	}

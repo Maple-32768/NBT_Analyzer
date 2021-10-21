@@ -19,6 +19,16 @@ public class TAGHeader {
 		this.size = 3 + this.name_size;
 	}
 
+	public String getTagName(boolean json){
+		String result = this.tag_name;
+		if (json) result = '\"' + result + '\"';
+		return result;
+	}
+
+	public String getTagName(){
+		return this.getTagName(false);
+	}
+
 	public static TAGHeader getHeader(byte[] raw_data){
 		return new TAGHeader(raw_data);
 	}

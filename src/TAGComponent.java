@@ -8,6 +8,7 @@ public abstract class TAGComponent {
 
     abstract public TAGHeader getHeader();
     abstract public String toString();
+    abstract public String toString(boolean json);
     abstract public int getSize();
 
     public static final List<Integer> fixed_size_types = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6));

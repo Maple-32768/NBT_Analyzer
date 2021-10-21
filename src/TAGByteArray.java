@@ -40,6 +40,11 @@ public class TAGByteArray extends TAGComponent{
 	}
 
 	@Override
+	public String toString(boolean json) {
+		return this.toString();
+	}
+
+	@Override
 	public int getSize() {
 		return this.size;
 	}

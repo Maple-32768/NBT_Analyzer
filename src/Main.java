@@ -33,7 +33,7 @@ public class Main {
 				data_array[i] = data.get(i);
 			}
 			TAGComponent c = TAGComponent.Analyze(data_array);
-			System.out.println((c.getHeader().tag_name != null ? c.getHeader().tag_name + " : " : "") + c);
+			System.out.println((c.getHeader().tag_name != null ? c.getHeader().getTagName(false) + " : " : "") + c.toString(false));
 			dIS.close();
 
 		} catch (IOException e) {

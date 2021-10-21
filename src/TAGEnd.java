@@ -19,6 +19,11 @@ public class TAGEnd extends TAGComponent{
     }
 
     @Override
+    public String toString(boolean json) {
+        return null;
+    }
+
+    @Override
     public int getSize() {
         return size;
     }

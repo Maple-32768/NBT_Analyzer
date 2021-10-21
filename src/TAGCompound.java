@@ -35,16 +35,21 @@ public class TAGCompound extends TAGComponent{
         return header;
     }
 
-    @Override
-    public String toString() {
+
+    public String toString(boolean json) {
         StringBuilder result = new StringBuilder();
         result.append('{');
         for(int i = 0; i < this.value.size(); i++){
             TAGComponent c = this.value.get(i);
             if (i != 0) result.append(",\u0020");
-            result.append(c.getHeader().tag_name != null ? c.getHeader().tag_name + " : " : "").append(c);
+            result.append(c.getHeader().tag_name != null ? c.getHeader().getTagName(json) + " : " : "").append(c.toString(json));
         }
         return result.append('}').toString();
+    }
+
+    @Override
+    public String toString(){
+        return this.toString(false);
     }
 
     @Override
