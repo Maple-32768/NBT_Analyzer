@@ -16,7 +16,10 @@ public class TAGCompound extends TAGComponent{
         byte[] data_temp = data_raw.clone();
         while(true){
             TAGComponent c = TAGComponent.Analyze(data_temp);
-            if (c instanceof TAGEnd) break;
+            if (c instanceof TAGEnd) {
+                this.size++;
+                break;
+            }
             else {
                 this.value.add(c);
                 this.size += c.getHeader().size + c.getSize();
@@ -38,7 +41,7 @@ public class TAGCompound extends TAGComponent{
         result.append('{');
         for(int i = 0; i < this.value.size(); i++){
             TAGComponent c = this.value.get(i);
-            if (i != 0 && i + 1 != this.value.size()) result.append(",\u0020");
+            if (i != 0) result.append(",\u0020");
             result.append(c.getHeader().tag_name != null ? c.getHeader().tag_name + " : " : "").append(c);
         }
         return result.append('}').toString();

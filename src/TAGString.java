@@ -13,8 +13,8 @@ public class TAGString extends TAGComponent{
 	public TAGString(TAGHeader header, byte[] data) {
 		this.header = header;
 		this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getShort();
-		this.size = data_size * this.length;
-		value = new String(Arrays.copyOfRange(data, length_size, length_size + length * data_size));
+		this.size = length_size + data_size * this.length;
+		this.value = new String(Arrays.copyOfRange(data, length_size, length_size + length * data_size));
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class TAGString extends TAGComponent{
 
 	@Override
 	public String toString() {
-		return this.value;
+		return '\"' + this.value + '\"';
 	}
 
 	@Override

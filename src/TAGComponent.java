@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class TAGComponent {
     protected int size;
@@ -8,10 +10,14 @@ public abstract class TAGComponent {
     abstract public String toString();
     abstract public int getSize();
 
+    public static final List<Integer> fixed_size_types = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6));
+    public static final List<Integer> unfixed_size_types = new ArrayList<>(Arrays.asList(7, 8, 9, 10, 11, 12));
+
     public static TAGComponent Analyze(byte[] data){
         TAGComponent result = null;
         TAGHeader header = TAGHeader.getHeader(data);
         if(header.type == 0) return new TAGEnd(header);
+        System.out.println(header.tag_name);
         byte[] data_temp = Arrays.copyOfRange(data, header.size, data.length);
         switch (header.type){
             case 1:
@@ -61,50 +67,13 @@ public abstract class TAGComponent {
             case 12:
                 result = new TAGLongArray(header, data_temp);
                 break;
+
+            default:
+
         }
         return result;
     }
 
-    public static int getLength(byte type){
-        switch (type){
-            case 0:
-                return TAGEnd.size;
-
-            case 1:
-                return TAGByte.size;
-
-            case 2:
-                return TAGShort.size;
-
-            case 3:
-                return TAGInt.size;
-
-            case 4:
-                return TAGLong.size;
-
-            case 5:
-                return TAGFloat.size;
-
-            case 6:
-                return TAGDouble.size;
-
-            case 7:
-
-            case 8:
-
-            case 9:
-
-            case 10:
-
-            case 11:
-
-            case 12:
-
-            default:
-                return -1;
-
-        }
-    }
 
     public static TAGComponent getNoHeaderComponent(byte type, byte[] data){
         TAGHeader null_header = TAGHeader.getNullHeader(type);
@@ -130,8 +99,25 @@ public abstract class TAGComponent {
             case 6:
                 return new TAGDouble(null_header, data);
 
-            default:
-                return null;
+            case 7:
+                return new TAGByteArray(null_header, data);
+
+            case 8:
+                return new TAGString(null_header, data);
+
+            case 9:
+                return new TAGList(null_header, data);
+
+            case 10:
+                return new TAGCompound(null_header, data);
+
+            case 11:
+                return new TAGIntArray(null_header, data);
+
+            case 12:
+                return new TAGLongArray(null_header, data);
+
         }
+        return null;
     }
 }
