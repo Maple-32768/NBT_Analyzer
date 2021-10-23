@@ -1,3 +1,6 @@
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 public class TAGEnd extends TAGComponent{
     public static final int data_size = 0;
     public static final int size = 0;
@@ -6,6 +9,15 @@ public class TAGEnd extends TAGComponent{
 
     public TAGEnd(TAGHeader header){
         this.header = header;
+    }
+
+    public TAGEnd(){
+        this.header = TAGHeader.getInstance(0, "");
+    }
+
+    @Contract(" -> new")
+    public static @NotNull TAGEnd getInstance(){
+        return new TAGEnd();
     }
 
     @Override

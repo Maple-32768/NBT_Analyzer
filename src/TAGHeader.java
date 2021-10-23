@@ -45,11 +45,11 @@ public class TAGHeader {
 		return result;
 	}
 
-	public TAGHeader getInstance(byte type, String name){
+	public static TAGHeader getInstance(byte type, String name){
 		return new TAGHeader(type, name);
 	}
 
-	public TAGHeader getInstance(int type, String name){
+	public static TAGHeader getInstance(int type, String name){
 		return getInstance((byte) type, name);
 	}
 
@@ -63,6 +63,10 @@ public class TAGHeader {
 		TAGHeader result = new TAGHeader(new byte[] {(byte)0x00});
 		result.type = type;
 		return result;
+	}
+
+	public static @NotNull TAGHeader getNullHeader(int type){
+		return getNullHeader((byte) type);
 	}
 
 	public String toString(){
