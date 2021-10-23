@@ -31,6 +31,10 @@ public class TAGHeader {
 		this.size = this.calculateSize();
 	}
 
+	public TAGHeader(int type, String name){
+		this((byte) type, name);
+	}
+
 	public int calculateSize(){
 		return this.size = 3 + this.name_size;
 	}
@@ -41,8 +45,12 @@ public class TAGHeader {
 		return result;
 	}
 
-	public static @NotNull TAGHeader getInstance(byte type, @NotNull String name){
+	public TAGHeader getInstance(byte type, String name){
 		return new TAGHeader(type, name);
+	}
+
+	public TAGHeader getInstance(int type, String name){
+		return getInstance((byte) type, name);
 	}
 
 	@Contract("_ -> new")
@@ -55,6 +63,10 @@ public class TAGHeader {
 		TAGHeader result = new TAGHeader(new byte[] {(byte)0x00});
 		result.type = type;
 		return result;
+	}
+
+	public String toString(){
+		return this.tag_name == null ? "" : this.tag_name + ":";
 	}
 
 }
