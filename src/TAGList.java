@@ -44,6 +44,10 @@ public class TAGList extends TAGComponent{
         }
     }
 
+    public TAGList(String name, int type, @NotNull List<TAGComponent> value){
+        this(name, (byte)type, value);
+    }
+
     public TAGList(String name, byte type, TAGComponent @NotNull [] value){
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.type = type;
@@ -54,6 +58,10 @@ public class TAGList extends TAGComponent{
             this.value.add(c);
             this.size += c.getValueSize();
         }
+    }
+
+    public TAGList(String name, int type, TAGComponent @NotNull [] value){
+        this(name, (byte)type, value);
     }
 
     @Override
@@ -67,7 +75,7 @@ public class TAGList extends TAGComponent{
         for(int i = 0; i < this.value.size(); i++){
             TAGComponent c = this.value.get(i);
             if (i != 0) result.append(",\u0020");
-            result.append(c.getHeader().tag_name != null ? c.getHeader().getTagName(json) + " : " : "").append(c.toString(json));
+            result.append(c.getHeader()).append(c.toString(json));
         }
         return result.append(']').toString();
     }

@@ -57,7 +57,7 @@ public class TAGCompound extends TAGComponent{
         for(int i = 0; i < this.value.size(); i++){
             TAGComponent c = this.value.get(i);
             if (i != 0) result.append(",\u0020");
-            result.append(c.getHeader().tag_name != null ? c.getHeader().getTagName(json) + " : " : "").append(c.toString(json));
+            result.append(c.getHeader()).append(c.toString(json));
         }
         return result.append('}').toString();
     }

@@ -45,11 +45,13 @@ public class TAGHeader {
 		return result;
 	}
 
-	public static TAGHeader getInstance(byte type, String name){
+	@Contract("_, _ -> new")
+	public static @NotNull TAGHeader getInstance(byte type, String name){
 		return new TAGHeader(type, name);
 	}
 
-	public static TAGHeader getInstance(int type, String name){
+	@Contract("_, _ -> new")
+	public static @NotNull TAGHeader getInstance(int type, String name){
 		return getInstance((byte) type, name);
 	}
 
@@ -70,7 +72,7 @@ public class TAGHeader {
 	}
 
 	public String toString(){
-		return this.tag_name == null ? "" : this.tag_name + ":";
+		return this.tag_name == null || this.tag_name.equals("") ? "" : this.tag_name + ":";
 	}
 
 }
