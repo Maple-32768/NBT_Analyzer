@@ -22,10 +22,10 @@ public class TAGCompound extends TAGComponent{
             }
             else {
                 this.value.add(c);
-                this.size += c.getHeader().size + c.getSize();
+                this.size += c.getSize();
             }
-            if (c.getHeader().size + c.getSize() >= data_temp.length) throw new IllegalArgumentException("Invalid NBT format.");
-            data_temp = Arrays.copyOfRange(data_temp, c.getHeader().size + c.getSize(), data_temp.length);
+            if (c.getSize() >= data_temp.length) throw new IllegalArgumentException("Invalid NBT format.");
+            data_temp = Arrays.copyOfRange(data_temp, c.getSize(), data_temp.length);
         }
 
     }
@@ -53,7 +53,17 @@ public class TAGCompound extends TAGComponent{
     }
 
     @Override
+    public int getTypeId() {
+        return 10;
+    }
+
+    @Override
     public int getSize() {
+        return this.header.size + this.size;
+    }
+
+    @Override
+    public int getValueSize() {
         return this.size;
     }
 }

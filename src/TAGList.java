@@ -25,7 +25,7 @@ public class TAGList extends TAGComponent{
             TAGComponent c;
             c = getNoHeaderComponent(this.type, data_temp);
             value.add(c);
-            this.size += Objects.requireNonNull(c).getSize();
+            this.size += Objects.requireNonNull(c).getValueSize();
             data_temp = Arrays.copyOfRange(data_temp, c.getSize(), data_temp.length);
         }
     }
@@ -52,7 +52,17 @@ public class TAGList extends TAGComponent{
     }
 
     @Override
+    public int getTypeId() {
+        return 9;
+    }
+
+    @Override
     public int getSize() {
+        return this.header.size + this.size;
+    }
+
+    @Override
+    public int getValueSize() {
         return this.size;
     }
 }

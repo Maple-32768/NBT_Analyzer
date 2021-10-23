@@ -2,8 +2,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class TAGLong extends TAGComponent{
-	public static final int data_size = Long.SIZE / Byte.SIZE;
-	public static final int size = data_size;
+	private static final int data_size = Long.SIZE / Byte.SIZE;
 
 	public TAGHeader header;
 	public long value;
@@ -28,8 +27,19 @@ public class TAGLong extends TAGComponent{
 		return this.toString();
 	}
 
+
+	@Override
+	public int getTypeId() {
+		return 4;
+	}
+
 	@Override
 	public int getSize() {
-		return size;
+		return this.header.size + data_size;
+	}
+
+	@Override
+	public int getValueSize() {
+		return data_size;
 	}
 }

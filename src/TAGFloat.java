@@ -2,8 +2,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class TAGFloat extends TAGComponent{
-	public static final int data_size = Float.SIZE / Byte.SIZE;
-	public static final int size = data_size;
+	private static final int data_size = Float.SIZE / Byte.SIZE;
 
 	public TAGHeader header;
 	public float value;
@@ -29,7 +28,17 @@ public class TAGFloat extends TAGComponent{
 	}
 
 	@Override
+	public int getTypeId() {
+		return 5;
+	}
+
+	@Override
 	public int getSize() {
-		return size;
+		return this.header.size + data_size;
+	}
+
+	@Override
+	public int getValueSize() {
+		return data_size;
 	}
 }

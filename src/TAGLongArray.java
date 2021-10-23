@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TAGLongArray extends TAGComponent{
-    public static final int length_size = Long.SIZE /Byte.SIZE;
-    public static final int data_size = Long.SIZE /Byte.SIZE;
+    private static final int length_size = Long.SIZE /Byte.SIZE;
+    private static final int data_size = Long.SIZE /Byte.SIZE;
 
     public TAGHeader header;
     public int length;
@@ -44,7 +44,17 @@ public class TAGLongArray extends TAGComponent{
     }
 
     @Override
+    public int getTypeId() {
+        return 12;
+    }
+
+    @Override
     public int getSize() {
+        return this.header.size + this.size;
+    }
+
+    @Override
+    public int getValueSize() {
         return this.size;
     }
 }

@@ -2,8 +2,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class TAGByte extends TAGComponent{
-	public static final int data_size = 1;
-	public static final int size = data_size;
+	private static final int data_size = 1;
 
 	public TAGHeader header;
 	public byte value;
@@ -30,6 +29,16 @@ public class TAGByte extends TAGComponent{
 
 	@Override
 	public int getSize() {
-		return size;
+		return this.header.size + data_size;
+	}
+
+	@Override
+	public int getValueSize() {
+		return data_size;
+	}
+
+	@Override
+	public int getTypeId() {
+		return 1;
 	}
 }

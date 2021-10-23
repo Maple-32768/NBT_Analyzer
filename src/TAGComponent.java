@@ -1,24 +1,18 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public abstract class TAGComponent {
-    protected int size;
-    protected TAGHeader header;
 
     abstract public TAGHeader getHeader();
     abstract public String toString();
     abstract public String toString(boolean json);
     abstract public int getSize();
-
-    public static final List<Integer> fixed_size_types = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6));
-    public static final List<Integer> unfixed_size_types = new ArrayList<>(Arrays.asList(7, 8, 9, 10, 11, 12));
+    abstract public int getTypeId();
+    abstract public int getValueSize();
 
     public static TAGComponent Analyze(byte[] data){
         TAGComponent result = null;
         TAGHeader header = TAGHeader.getHeader(data);
         if(header.type == 0) return new TAGEnd(header);
-        System.out.println(header.tag_name);
         byte[] data_temp = Arrays.copyOfRange(data, header.size, data.length);
         switch (header.type){
             case 1:

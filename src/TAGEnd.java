@@ -2,8 +2,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public class TAGEnd extends TAGComponent{
-    public static final int data_size = 0;
-    public static final int size = 0;
 
     public TAGHeader header;
 
@@ -37,6 +35,16 @@ public class TAGEnd extends TAGComponent{
 
     @Override
     public int getSize() {
-        return size;
+        return this.header.size;
+    }
+
+    @Override
+    public int getValueSize() {
+        return 0;
+    }
+
+    @Override
+    public int getTypeId() {
+        return 0;
     }
 }
