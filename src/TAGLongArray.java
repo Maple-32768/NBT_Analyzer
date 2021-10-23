@@ -22,6 +22,20 @@ public class TAGLongArray extends TAGComponent{
         }
     }
 
+    public TAGLongArray(String name, List<Long> value){
+        this.header = TAGHeader.getInstance(getTypeId(), name);
+        this.length = value.size();
+        this.size = length_size + data_size * this.length;
+        this.value = new ArrayList<>();
+        this.value.addAll(value);
+    }
+
+    public TAGLongArray(String name, long[] value){
+        List<Long> list = new ArrayList<>();
+        for(long l : value) list.add(l);
+        new TAGLongArray(name, list);
+    }
+
     @Override
     public TAGHeader getHeader() {
         return this.header;

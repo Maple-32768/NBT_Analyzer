@@ -11,6 +11,10 @@ public class TAGDouble extends TAGComponent{
 		this.header = header;
 		value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getDouble();
 	}
+	public TAGDouble(String name, double value){
+		this.header = TAGHeader.getInstance(getTypeId(), name);
+		this.value = value;
+	}
 
 	@Override
 	public TAGHeader getHeader() {

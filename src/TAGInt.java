@@ -12,6 +12,11 @@ public class TAGInt extends TAGComponent{
 		value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getInt();
 	}
 
+	public TAGInt(String name, int value){
+		this.header = TAGHeader.getInstance(getTypeId(), name);
+		this.value = value;
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

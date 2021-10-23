@@ -1,3 +1,6 @@
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -10,6 +13,11 @@ public class TAGByte extends TAGComponent{
 	public TAGByte(TAGHeader header, byte[] data) {
 		this.header = header;
 		this.value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).get();
+	}
+
+	public TAGByte(String name, byte value){
+		this.header = TAGHeader.getInstance(getTypeId(), name);
+		this.value = value;
 	}
 
 	@Override

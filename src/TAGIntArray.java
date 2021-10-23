@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +22,20 @@ public class TAGIntArray extends TAGComponent{
 		for (int i = 0; i < this.length; i++){
 			value.add(ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).getInt());
 		}
+	}
+
+	public TAGIntArray(String name, @NotNull List<Integer> value){
+		this.header = TAGHeader.getInstance(getTypeId(), name);
+		this.length = value.size();
+		this.size = length_size + data_size * this.length;
+		this.value = new ArrayList<>();
+		this.value.addAll(value);
+	}
+
+	public TAGIntArray(String name, int @NotNull [] value){
+		List<Integer> list= new ArrayList<>();
+		for(int i : value) list.add(i);
+		new TAGIntArray(name, list);
 	}
 
 	@Override

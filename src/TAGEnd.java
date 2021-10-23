@@ -13,11 +13,6 @@ public class TAGEnd extends TAGComponent{
         this.header = TAGHeader.getInstance(0, "");
     }
 
-    @Contract(" -> new")
-    public static @NotNull TAGEnd getInstance(){
-        return new TAGEnd();
-    }
-
     @Override
     public TAGHeader getHeader() {
         return this.header;

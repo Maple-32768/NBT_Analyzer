@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -15,6 +17,13 @@ public class TAGString extends TAGComponent{
 		this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getShort();
 		this.size = length_size + data_size * this.length;
 		this.value = new String(Arrays.copyOfRange(data, length_size, length_size + length * data_size));
+	}
+
+	public TAGString(String name, @NotNull String value){
+		this.header = TAGHeader.getInstance(getTypeId(), name);
+		this.length = (short) value.length();
+		this.size = length_size + data_size * this.length;
+		this.value = value;
 	}
 
 	@Override

@@ -12,6 +12,11 @@ public class TAGLong extends TAGComponent{
 		value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getLong();
 	}
 
+	public TAGLong(String name, long value){
+		this.header = TAGHeader.getInstance(getTypeId(), name);
+		this.value = value;
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

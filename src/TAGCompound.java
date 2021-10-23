@@ -1,19 +1,19 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class TAGCompound extends TAGComponent{
     public TAGHeader header;
-    public byte[] data_raw;
     public List<TAGComponent> value;
     public int size;
 
     public TAGCompound(TAGHeader header, byte[] data){
         this.header = header;
-        this.data_raw = data;
         this.value = new ArrayList<>();
         this.size = 0;
-        byte[] data_temp = data_raw.clone();
+        byte[] data_temp = data.clone();
         while(true){
             TAGComponent c = TAGComponent.Analyze(data_temp);
             if (c instanceof TAGEnd) {
@@ -28,6 +28,21 @@ public class TAGCompound extends TAGComponent{
             data_temp = Arrays.copyOfRange(data_temp, c.getSize(), data_temp.length);
         }
 
+    }
+
+    public TAGCompound(String name, @NotNull List<TAGComponent> value){
+        this.header = TAGHeader.getInstance(getTypeId(), name);
+        this.size = 0;
+        this.value = new ArrayList<>();
+        for(TAGComponent c : value){
+            this.value.add(c);
+            this.size += c.getSize();
+        }
+        this.size++; //TAGEnd
+    }
+
+    public TAGCompound(String name, TAGComponent[] value){
+        new TAGCompound(name, Arrays.asList(value));
     }
 
     @Override

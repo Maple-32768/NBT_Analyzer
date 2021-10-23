@@ -12,6 +12,11 @@ public class TAGFloat extends TAGComponent{
 		this.value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getFloat();
 	}
 
+	public TAGFloat(String name, float value){
+		this.header = TAGHeader.getInstance(getTypeId(), name);
+		this.value = value;
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;
