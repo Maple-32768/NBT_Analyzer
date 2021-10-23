@@ -36,7 +36,7 @@ public class TAGShort extends TAGComponent{
 	}
 
 	@Override
-	public int getTypeId() {
+	public byte getTypeId() {
 		return 2;
 	}
 

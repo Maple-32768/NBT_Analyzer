@@ -70,7 +70,7 @@ public class TAGList extends TAGComponent{
     }
 
     @Override
-    public int getTypeId() {
+    public byte getTypeId() {
         return 9;
     }
 

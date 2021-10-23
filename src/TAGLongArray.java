@@ -58,7 +58,7 @@ public class TAGLongArray extends TAGComponent{
     }
 
     @Override
-    public int getTypeId() {
+    public byte getTypeId() {
         return 12;
     }
 

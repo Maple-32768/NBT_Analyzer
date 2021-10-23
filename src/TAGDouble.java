@@ -32,7 +32,7 @@ public class TAGDouble extends TAGComponent{
 	}
 
 	@Override
-	public int getTypeId() {
+	public byte getTypeId() {
 		return 6;
 	}
 

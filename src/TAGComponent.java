@@ -6,7 +6,7 @@ public abstract class TAGComponent {
     abstract public String toString();
     abstract public String toString(boolean json);
     abstract public int getSize();
-    abstract public int getTypeId();
+    abstract public byte getTypeId();
     abstract public int getValueSize();
 
     public static TAGComponent Analyze(byte[] data){

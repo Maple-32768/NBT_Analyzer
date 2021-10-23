@@ -1,6 +1,3 @@
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 public class TAGEnd extends TAGComponent{
 
     public TAGHeader header;
@@ -39,7 +36,7 @@ public class TAGEnd extends TAGComponent{
     }
 
     @Override
-    public int getTypeId() {
+    public byte getTypeId() {
         return 0;
     }
 }

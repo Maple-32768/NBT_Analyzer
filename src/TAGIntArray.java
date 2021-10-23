@@ -60,7 +60,7 @@ public class TAGIntArray extends TAGComponent{
 	}
 
 	@Override
-	public int getTypeId() {
+	public byte getTypeId() {
 		return 11;
 	}
 
