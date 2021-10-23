@@ -34,9 +34,11 @@ public class TAGByteArray extends TAGComponent{
 	}
 
 	public TAGByteArray(String name, byte @NotNull [] value){
-		List<Byte> list = new ArrayList<>();
-		for (byte b : value) list.add(b);
-		new TAGByteArray(name, list);
+		this.header = TAGHeader.getInstance(getTypeId(), name);
+		this.length = value.length;
+		this.size = length_size + data_size * this.length;
+		this.value = new ArrayList<>();
+		for (byte b : value) this.value.add(b);
 	}
 
 	@Override

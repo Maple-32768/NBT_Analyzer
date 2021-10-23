@@ -45,7 +45,15 @@ public class TAGList extends TAGComponent{
     }
 
     public TAGList(String name, byte type, TAGComponent @NotNull [] value){
-        new TAGList(name, type, Arrays.asList(value));
+        this.header = TAGHeader.getInstance(getTypeId(), name);
+        this.type = type;
+        this.length = value.length;
+        this.size = type_size + length_size;
+        this.value = new ArrayList<>();
+        for(TAGComponent c : value) {
+            this.value.add(c);
+            this.size += c.getValueSize();
+        }
     }
 
     @Override

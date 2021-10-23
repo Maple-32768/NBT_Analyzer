@@ -33,9 +33,11 @@ public class TAGIntArray extends TAGComponent{
 	}
 
 	public TAGIntArray(String name, int @NotNull [] value){
-		List<Integer> list= new ArrayList<>();
-		for(int i : value) list.add(i);
-		new TAGIntArray(name, list);
+		this.header = TAGHeader.getInstance(getTypeId(), name);
+		this.length = value.length;
+		this.size = length_size + data_size * this.length;
+		this.value = new ArrayList<>();
+		for (int i : value) this.value.add(i);
 	}
 
 	@Override

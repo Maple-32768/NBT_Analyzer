@@ -42,7 +42,7 @@ public class TAGCompound extends TAGComponent{
     }
 
     public TAGCompound(String name, TAGComponent[] value){
-        new TAGCompound(name, Arrays.asList(value));
+        this(name, Arrays.asList(value));
     }
 
     @Override
