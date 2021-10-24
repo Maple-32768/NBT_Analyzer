@@ -17,6 +17,10 @@ public class TAGByte extends TAGComponent{
 		this.value = value;
 	}
 
+	public TAGByte(String name){
+		this(name, (byte)0);
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

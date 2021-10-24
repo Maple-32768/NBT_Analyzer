@@ -20,6 +20,10 @@ public class TAGShort extends TAGComponent{
 		this.value = value;
 	}
 
+	public TAGShort(String name){
+		this(name, (short) 0);
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

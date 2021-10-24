@@ -27,6 +27,10 @@ public class TAGString extends TAGComponent{
 		this.value = value;
 	}
 
+	public TAGString(String name){
+		this(name, "");
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

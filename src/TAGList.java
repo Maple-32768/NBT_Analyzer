@@ -60,6 +60,10 @@ public class TAGList extends TAGComponent{
         }
     }
 
+    public TAGList(String name){
+        this(name, -1, new ArrayList<>());
+    }
+
     public TAGList(String name, int type, TAGComponent @NotNull [] value){
         this(name, (byte)type, value);
     }

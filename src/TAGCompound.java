@@ -40,6 +40,10 @@ public class TAGCompound extends TAGComponent{
         this(name, Arrays.asList(value));
     }
 
+    public TAGCompound(String name){
+        this(name, new ArrayList<>());
+    }
+
     @Override
     public TAGHeader getHeader() {
         return header;

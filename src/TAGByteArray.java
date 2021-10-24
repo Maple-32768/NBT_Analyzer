@@ -41,6 +41,10 @@ public class TAGByteArray extends TAGComponent{
 		for (byte b : value) this.value.add(b);
 	}
 
+	public TAGByteArray(String name){
+		this(name, new ArrayList<>());
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

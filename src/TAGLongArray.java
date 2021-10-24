@@ -38,6 +38,10 @@ public class TAGLongArray extends TAGComponent{
         for(long l : value) this.value.add(l);
     }
 
+    public TAGLongArray(String name){
+        this(name, new ArrayList<>());
+    }
+
     @Override
     public TAGHeader getHeader() {
         return this.header;

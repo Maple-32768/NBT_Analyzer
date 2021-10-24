@@ -40,6 +40,10 @@ public class TAGIntArray extends TAGComponent{
 		for (int i : value) this.value.add(i);
 	}
 
+    public TAGIntArray(String name){
+        this(name, new ArrayList<>());
+    }
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

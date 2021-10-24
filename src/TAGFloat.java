@@ -17,6 +17,10 @@ public class TAGFloat extends TAGComponent{
 		this.value = value;
 	}
 
+	public TAGFloat(String name){
+		this(name, 0f);
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

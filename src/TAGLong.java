@@ -17,6 +17,10 @@ public class TAGLong extends TAGComponent{
 		this.value = value;
 	}
 
+	public TAGLong(String name){
+		this(name, 0);
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;
