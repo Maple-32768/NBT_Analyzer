@@ -99,4 +99,34 @@ public class TAGList extends TAGComponent{
     public int getValueSize() {
         return this.size;
     }
+
+    @Override
+    public byte[] getBytes() {
+        byte[] header_bytes = this.header.getBytes(),
+                value_bytes = this.getValueBytes(),
+                result = new byte[getSize()];
+        System.arraycopy(header_bytes, 0, result, 0, header_bytes.length);
+        System.arraycopy(value_bytes, 0, result, header_bytes.length, value_bytes.length);
+        return result;
+    }
+
+    @Override
+    public byte[] getValueBytes() {
+        int valueSize = this.getValueSize();
+        int prefix_length = type_size + length_size;
+        byte[] type_bytes = ByteBuffer.allocate(type_size).put(this.type).array(),
+                length_bytes = ByteBuffer.allocate(length_size).putInt(this.length).array(),
+                values_bytes = new byte[valueSize - prefix_length],
+                result = new byte[valueSize];
+        int sum = 0;
+        for (TAGComponent c : this.value) {
+            byte[] value_bytes = c.getValueBytes();
+            System.arraycopy(value_bytes, 0, values_bytes, sum, value_bytes.length);
+            sum += c.getValueSize();
+        }
+        System.arraycopy(type_bytes, 0, result, 0, type_size);
+        System.arraycopy(length_bytes, 0, result, type_size, length_size);
+        System.arraycopy(values_bytes, 0, result, prefix_length, valueSize - prefix_length);
+        return result;
+    }
 }

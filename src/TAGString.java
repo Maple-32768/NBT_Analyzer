@@ -1,6 +1,7 @@
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class TAGString extends TAGComponent{
@@ -54,5 +55,25 @@ public class TAGString extends TAGComponent{
 	@Override
 	public int getValueSize() {
 		return this.size;
+	}
+
+	@Override
+	public byte[] getBytes() {
+		byte[] header_bytes = this.header.getBytes(),
+				value_bytes = this.getValueBytes(),
+				result = new byte[getSize()];
+		System.arraycopy(header_bytes, 0, result, 0, header_bytes.length);
+		System.arraycopy(value_bytes, 0, result, header_bytes.length, value_bytes.length);
+		return result;
+	}
+
+	@Override
+	public byte[] getValueBytes() {
+		byte[] length_bytes = ByteBuffer.allocate(length_size).putShort(this.length).array(),
+				value_bytes = this.value.getBytes(StandardCharsets.UTF_8),
+				result = new byte[length_size + data_size * length];
+		System.arraycopy(length_bytes, 0, result, 0, length_bytes.length);
+		System.arraycopy(value_bytes, 0, result, length_bytes.length, value_bytes.length);
+		return result;
 	}
 }

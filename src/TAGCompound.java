@@ -9,21 +9,16 @@ public class TAGCompound extends TAGComponent{
     public List<TAGComponent> value;
     public int size;
 
-    public TAGCompound(TAGHeader header, byte[] data){
+    public TAGCompound(TAGHeader header, byte @NotNull [] data){
         this.header = header;
         this.value = new ArrayList<>();
         this.size = 0;
         byte[] data_temp = data.clone();
         while(true){
             TAGComponent c = TAGComponent.Analyze(data_temp);
-            if (c instanceof TAGEnd) {
-                this.size++;
-                break;
-            }
-            else {
-                this.value.add(c);
-                this.size += c.getSize();
-            }
+            this.value.add(c);
+            this.size += c.getSize();
+            if (c instanceof TAGEnd) break;
             if (c.getSize() >= data_temp.length) throw new IllegalArgumentException("Invalid NBT format.");
             data_temp = Arrays.copyOfRange(data_temp, c.getSize(), data_temp.length);
         }
@@ -80,5 +75,27 @@ public class TAGCompound extends TAGComponent{
     @Override
     public int getValueSize() {
         return this.size;
+    }
+
+    @Override
+    public byte[] getBytes() {
+        byte[] header_bytes = this.header.getBytes(),
+                value_bytes = this.getValueBytes(),
+                result = new byte[getSize()];
+        System.arraycopy(header_bytes, 0, result, 0, header_bytes.length);
+        System.arraycopy(value_bytes, 0, result, header_bytes.length, value_bytes.length);
+        return result;
+    }
+
+    @Override
+    public byte[] getValueBytes() {
+        byte[] values_bytes = new byte[this.getValueSize()];
+        int sum = 0;
+        for (TAGComponent c : this.value) {
+            byte[] value_bytes = c.getBytes();
+            System.arraycopy(value_bytes, 0, values_bytes, sum, value_bytes.length);
+            sum += c.getSize();
+        }
+        return values_bytes;
     }
 }

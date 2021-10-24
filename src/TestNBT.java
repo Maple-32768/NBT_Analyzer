@@ -8,6 +8,11 @@ public class TestNBT {
 		TAGList play_games = new TAGList("play_games", 8, _play_games);
 		TAGCompound root = new TAGCompound("", new TAGComponent[]{name, age, height, play_games});
 		System.out.println(root);
+		byte[] data = root.getBytes();
+		for (int i = 0; i < data.length; i++) {
+			System.out.printf("%02x ", data[i]);
+			if((i + 1) % 12 == 0) System.out.println();
+		}
 	}
 
 }

@@ -1,6 +1,3 @@
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -48,5 +45,20 @@ public class TAGByte extends TAGComponent{
 	@Override
 	public byte getTypeId() {
 		return 1;
+	}
+
+	@Override
+	public byte[] getBytes() {
+		byte[] header_bytes = this.header.getBytes(),
+				value_bytes = this.getValueBytes(),
+				result = new byte[getSize()];
+		System.arraycopy(header_bytes, 0, result, 0, header_bytes.length);
+		System.arraycopy(value_bytes, 0, result, header_bytes.length, value_bytes.length);
+		return result;
+	}
+
+	@Override
+	public byte[] getValueBytes() {
+		return ByteBuffer.allocate(data_size).put(this.value).array();
 	}
 }

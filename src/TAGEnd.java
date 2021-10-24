@@ -39,4 +39,14 @@ public class TAGEnd extends TAGComponent{
     public byte getTypeId() {
         return 0;
     }
+
+    @Override
+    public byte[] getBytes() {
+        return this.header.getBytes();
+    }
+
+    @Override
+    public byte[] getValueBytes() {
+        return new byte[0];
+    }
 }

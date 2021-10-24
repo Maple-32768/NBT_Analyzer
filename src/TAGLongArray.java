@@ -73,4 +73,29 @@ public class TAGLongArray extends TAGComponent{
     public int getValueSize() {
         return this.size;
     }
+
+    @Override
+    public byte[] getBytes() {
+        byte[] header_bytes = this.header.getBytes(),
+                value_bytes = this.getValueBytes(),
+                result = new byte[getSize()];
+        System.arraycopy(header_bytes, 0, result, 0, header_bytes.length);
+        System.arraycopy(value_bytes, 0, result, header_bytes.length, value_bytes.length);
+        return result;
+    }
+
+    @Override
+    public byte[] getValueBytes() {
+        int values_size = getValueSize() - length_size;
+        byte[] length_bytes = ByteBuffer.allocate(length_size).putInt(this.length).array(),
+                values_bytes = new byte[values_size],
+                result = new byte[getValueSize()];
+        for (int i = 0; i < this.length; i++) {
+            byte[] value_bytes = ByteBuffer.allocate(data_size).putLong(this.value.get(i)).array();
+            System.arraycopy(value_bytes, 0, values_bytes, data_size * i, data_size);
+        }
+        System.arraycopy(length_bytes, 0, result, 0 , length_size);
+        System.arraycopy(values_bytes, 0, result, length_size, values_size);
+        return result;
+    }
 }

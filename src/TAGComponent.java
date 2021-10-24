@@ -5,9 +5,11 @@ public abstract class TAGComponent {
     abstract public TAGHeader getHeader();
     abstract public String toString();
     abstract public String toString(boolean json);
-    abstract public int getSize();
     abstract public byte getTypeId();
+    abstract public int getSize();
     abstract public int getValueSize();
+    abstract public byte[] getBytes();
+    abstract public byte[] getValueBytes();
 
     public static TAGComponent Analyze(byte[] data){
         TAGComponent result = null;
