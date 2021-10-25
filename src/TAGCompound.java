@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +7,7 @@ public class TAGCompound extends TAGComponent{
     public List<TAGComponent> value;
     public int size;
 
-    public TAGCompound(TAGHeader header, byte @NotNull [] data){
+    public TAGCompound(TAGHeader header, byte [] data){
         this.header = header;
         this.value = new ArrayList<>();
         this.size = 0;
@@ -25,7 +23,7 @@ public class TAGCompound extends TAGComponent{
 
     }
 
-    public TAGCompound(String name, @NotNull List<TAGComponent> value){
+    public TAGCompound(String name, List<TAGComponent> value){
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.size = 0;
         this.value = new ArrayList<>();

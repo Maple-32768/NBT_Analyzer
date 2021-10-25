@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -20,7 +18,7 @@ public class TAGString extends TAGComponent{
 		this.value = new String(Arrays.copyOfRange(data, length_size, length_size + length * data_size));
 	}
 
-	public TAGString(String name, @NotNull String value){
+	public TAGString(String name, String value){
 		this.header = TAGHeader.getInstance(getTypeId(), name);
 		this.length = (short) value.length();
 		this.size = length_size + data_size * this.length;

@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +23,7 @@ public class TAGByteArray extends TAGComponent{
 		}
 	}
 
-	public TAGByteArray(String name, @NotNull List<Byte> value){
+	public TAGByteArray(String name, List<Byte> value){
 		this.header = TAGHeader.getInstance(getTypeId(), name);
 		this.length = value.size();
 		this.size = length_size + data_size * this.length;
@@ -33,7 +31,7 @@ public class TAGByteArray extends TAGComponent{
 		this.value.addAll(value);
 	}
 
-	public TAGByteArray(String name, byte @NotNull [] value){
+	public TAGByteArray(String name, byte [] value){
 		this.header = TAGHeader.getInstance(getTypeId(), name);
 		this.length = value.length;
 		this.size = length_size + data_size * this.length;
