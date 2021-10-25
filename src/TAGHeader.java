@@ -13,16 +13,22 @@ public class TAGHeader {
 
 	public TAGHeader(byte [] data) {
 		this.type = data[0];
-		if(this.type == 0x00) return;
+		if(this.type == 0x00) {
+			this.size = type_length;
+			return;
+		}
 		this.name_size = ByteBuffer.wrap(Arrays.copyOfRange(data, type_length, type_length + name_size_length)).getShort();
 		if (this.name_size == 0) this.tag_name = null;
 		else this.tag_name = new String(Arrays.copyOfRange(data, type_length + name_size_length, type_length + name_size_length + this.name_size));
-		this.size = calculateSize();
+		this.size = this.calculateSize();
 	}
 
 	public TAGHeader(byte type, String name){
 		this.type = type;
-		if(this.type == 0x00) return;
+		if(this.type == 0x00) {
+			this.size = type_length;
+			return;
+		}
 		this.tag_name = name;
 		this.name_size = (short) name.getBytes(StandardCharsets.UTF_8).length;
 		this.size = this.calculateSize();
@@ -32,8 +38,8 @@ public class TAGHeader {
 		this((byte) type, name);
 	}
 
-	public int calculateSize(){
-		return this.size = type_length + name_size_length + this.name_size;
+	private int calculateSize(){
+		return type_length + name_size_length + this.name_size;
 	}
 
 	public String getTagName(boolean json){

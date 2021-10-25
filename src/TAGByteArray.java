@@ -16,7 +16,7 @@ public class TAGByteArray extends TAGComponent{
 	public TAGByteArray(TAGHeader header, byte[] data) {
 		this.header = header;
 		this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getInt();
-		this.size = length_size + data_size * this.length;
+		this.size = this.calculateSize();
 		value = new ArrayList<>();
 		for (int i = 0; i < this.length; i++){
 			value.add(ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).get());
@@ -26,7 +26,7 @@ public class TAGByteArray extends TAGComponent{
 	public TAGByteArray(String name, List<Byte> value){
 		this.header = TAGHeader.getInstance(getTypeId(), name);
 		this.length = value.size();
-		this.size = length_size + data_size * this.length;
+		this.size = this.calculateSize();
 		this.value = new ArrayList<>();
 		this.value.addAll(value);
 	}
@@ -34,9 +34,13 @@ public class TAGByteArray extends TAGComponent{
 	public TAGByteArray(String name, byte [] value){
 		this.header = TAGHeader.getInstance(getTypeId(), name);
 		this.length = value.length;
-		this.size = length_size + data_size * this.length;
+		this.size = this.calculateSize();
 		this.value = new ArrayList<>();
 		for (byte b : value) this.value.add(b);
+	}
+
+	private int calculateSize() {
+		return length_size + data_size * this.length;
 	}
 
 	public TAGByteArray(String name){

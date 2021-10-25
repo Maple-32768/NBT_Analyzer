@@ -15,7 +15,7 @@ public class TAGLongArray extends TAGComponent{
     public TAGLongArray(TAGHeader header, byte[] data){
         this.header = header;
         this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getInt();
-        this.size = data_size * this.length;
+        this.size = calculateSize();
         value = new ArrayList<>();
         for (int i = 0; i < this.length; i++){
             value.add(ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).getLong());
@@ -25,7 +25,7 @@ public class TAGLongArray extends TAGComponent{
     public TAGLongArray(String name, List<Long> value){
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.length = value.size();
-        this.size = length_size + data_size * this.length;
+        this.size = this.calculateSize();
         this.value = new ArrayList<>();
         this.value.addAll(value);
     }
@@ -33,7 +33,7 @@ public class TAGLongArray extends TAGComponent{
     public TAGLongArray(String name, long[] value){
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.length = value.length;
-        this.size = length_size + data_size * this.length;
+        this.size = this.calculateSize();
         this.value = new ArrayList<>();
         for(long l : value) this.value.add(l);
     }
@@ -41,6 +41,11 @@ public class TAGLongArray extends TAGComponent{
     public TAGLongArray(String name){
         this(name, new ArrayList<>());
     }
+
+    private int calculateSize() {
+        return length_size + data_size * this.length;
+    }
+
 
     @Override
     public TAGHeader getHeader() {

@@ -14,19 +14,23 @@ public class TAGString extends TAGComponent{
 	public TAGString(TAGHeader header, byte[] data) {
 		this.header = header;
 		this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getShort();
-		this.size = length_size + data_size * this.length;
+		this.size = this.calculateSize();
 		this.value = new String(Arrays.copyOfRange(data, length_size, length_size + length * data_size));
 	}
 
 	public TAGString(String name, String value){
 		this.header = TAGHeader.getInstance(getTypeId(), name);
 		this.length = (short) value.length();
-		this.size = length_size + data_size * this.length;
+		this.size = this.calculateSize();
 		this.value = value;
 	}
 
 	public TAGString(String name){
 		this(name, "");
+	}
+
+	private int calculateSize() {
+		return length_size + data_size * this.length;
 	}
 
 	@Override

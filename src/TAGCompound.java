@@ -10,28 +10,22 @@ public class TAGCompound extends TAGComponent{
     public TAGCompound(TAGHeader header, byte [] data){
         this.header = header;
         this.value = new ArrayList<>();
-        this.size = 0;
         byte[] data_temp = data.clone();
         while(true){
             TAGComponent c = TAGComponent.Analyze(data_temp);
             this.value.add(c);
-            this.size += c.getSize();
             if (c instanceof TAGEnd) break;
             if (c.getSize() >= data_temp.length) throw new IllegalArgumentException("Invalid NBT format.");
             data_temp = Arrays.copyOfRange(data_temp, c.getSize(), data_temp.length);
         }
-
+        this.size = this.calculateSize();
     }
 
     public TAGCompound(String name, List<TAGComponent> value){
         this.header = TAGHeader.getInstance(getTypeId(), name);
-        this.size = 0;
         this.value = new ArrayList<>();
-        for(TAGComponent c : value){
-            this.value.add(c);
-            this.size += c.getSize();
-        }
-        this.size++; //TAGEnd
+        this.value.addAll(value);
+        this.size = this.calculateSize();
     }
 
     public TAGCompound(String name, TAGComponent[] value){
@@ -40,6 +34,12 @@ public class TAGCompound extends TAGComponent{
 
     public TAGCompound(String name){
         this(name, new ArrayList<>());
+    }
+
+    private int calculateSize() {
+        int sum = 0;
+        for (TAGComponent c : this.value) sum += c.getSize();
+        return sum;
     }
 
     @Override

@@ -1,8 +1,5 @@
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class TAGList extends TAGComponent{
     public static final int type_size = 1;
@@ -19,27 +16,23 @@ public class TAGList extends TAGComponent{
         this.type = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, type_size)).get();
         this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, type_size, type_size + length_size)).getInt();
         this.value = new ArrayList<>();
-        this.size = type_size + length_size;
         byte[] data_temp = Arrays.copyOfRange(data, type_size + length_size, data.length);
         for (int i = 0; i < this.length; i++) {
             TAGComponent c;
             c = getNoHeaderComponent(this.type, data_temp);
             value.add(c);
-            this.size += Objects.requireNonNull(c).getValueSize();
-            data_temp = Arrays.copyOfRange(data_temp, c.getSize(), data_temp.length);
+            data_temp = Arrays.copyOfRange(data_temp, Objects.requireNonNull(c).getSize(), data_temp.length);
         }
+        this.size = this.calculateSize();
     }
 
     public TAGList(String name, byte type, List<TAGComponent> value){
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.type = type;
         this.length = value.size();
-        this.size = type_size + length_size;
         this.value = new ArrayList<>();
-        for(TAGComponent c : value) {
-            this.value.add(c);
-            this.size += c.getValueSize();
-        }
+        this.value.addAll(value);
+        this.size = this.calculateSize();
     }
 
     public TAGList(String name, int type, List<TAGComponent> value){
@@ -50,12 +43,9 @@ public class TAGList extends TAGComponent{
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.type = type;
         this.length = value.length;
-        this.size = type_size + length_size;
         this.value = new ArrayList<>();
-        for(TAGComponent c : value) {
-            this.value.add(c);
-            this.size += c.getValueSize();
-        }
+        Collections.addAll(this.value, value);
+        this.size = this.calculateSize();
     }
 
     public TAGList(String name){
@@ -64,6 +54,12 @@ public class TAGList extends TAGComponent{
 
     public TAGList(String name, int type, TAGComponent [] value){
         this(name, (byte)type, value);
+    }
+
+    private int calculateSize() {
+        int sum = type_size + length_size;
+        for (TAGComponent c : this.value) sum += Objects.requireNonNull(c).getValueSize();
+        return sum;
     }
 
     @Override
