@@ -9,16 +9,16 @@ public class TAGIntArray extends TAGComponent{
 
 	public TAGHeader header;
 	public int length;
-	public List<Integer> value;
+	public int[] value;
 	public int size;
 
 	public TAGIntArray(TAGHeader header, byte[] data) {
 		this.header = header;
 		this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getInt();
 		this.size = this.calculateSize();
-		value = new ArrayList<>();
+		this.value = new int[this.length];
 		for (int i = 0; i < this.length; i++){
-			value.add(ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).getInt());
+			this.value[i] = ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).getInt();
 		}
 	}
 
@@ -26,16 +26,15 @@ public class TAGIntArray extends TAGComponent{
 		this.header = TAGHeader.getInstance(getTypeId(), name);
 		this.length = value.size();
 		this.size = this.calculateSize();
-		this.value = new ArrayList<>();
-		this.value.addAll(value);
+		this.value = new int[this.length];
+		for(int i = 0; i < this.length; i++) this.value[i] = value.get(i);
 	}
 
 	public TAGIntArray(String name, int [] value){
 		this.header = TAGHeader.getInstance(getTypeId(), name);
 		this.length = value.length;
 		this.size = this.calculateSize();
-		this.value = new ArrayList<>();
-		for (int i : value) this.value.add(i);
+		this.value = value.clone();
 	}
 
     public TAGIntArray(String name){
@@ -44,6 +43,18 @@ public class TAGIntArray extends TAGComponent{
 
 	private int calculateSize() {
 		return length_size + data_size * this.length;
+	}
+
+	public void setValue(int[] value) {
+		this.length = value.length;
+		this.value = value.clone();
+		this.size = this.calculateSize();
+	}
+
+	public void setValue(List<Integer> value){
+		int[] value_array = new int[value.size()];
+		for (int i = 0; i < value.size(); i++) value_array[i] = value.get(i);
+		this.setValue(value_array);
 	}
 
 	@Override
@@ -57,7 +68,7 @@ public class TAGIntArray extends TAGComponent{
 		result.append('[');
 		for (int i = 0; i < this.length; i++){
 			if (i != 0 && i + 1 != this.length) result.append(",\u0020");
-			result.append(this.value.get(i));
+			result.append(this.value[i]);
 		}
 		return result.append(']').toString();
 	}
@@ -99,7 +110,7 @@ public class TAGIntArray extends TAGComponent{
 				values_bytes = new byte[values_size],
 				result = new byte[getValueSize()];
 		for (int i = 0; i < this.length; i++) {
-			byte[] value_bytes = ByteBuffer.allocate(data_size).putInt(this.value.get(i)).array();
+			byte[] value_bytes = ByteBuffer.allocate(data_size).putInt(this.value[i]).array();
 			System.arraycopy(value_bytes, 0, values_bytes, data_size * i, data_size);
 		}
 		System.arraycopy(length_bytes, 0, result, 0 , length_size);

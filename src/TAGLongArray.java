@@ -9,16 +9,16 @@ public class TAGLongArray extends TAGComponent{
 
     public TAGHeader header;
     public int length;
-    public List<Long> value;
+    public long[] value;
     public int size;
 
     public TAGLongArray(TAGHeader header, byte[] data){
         this.header = header;
         this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getInt();
         this.size = calculateSize();
-        value = new ArrayList<>();
+        value = new long[this.length];
         for (int i = 0; i < this.length; i++){
-            value.add(ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).getLong());
+            this.value[i] = ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).getLong();
         }
     }
 
@@ -26,16 +26,15 @@ public class TAGLongArray extends TAGComponent{
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.length = value.size();
         this.size = this.calculateSize();
-        this.value = new ArrayList<>();
-        this.value.addAll(value);
+        this.value = new long[this.length];
+        for(int i = 0; i < this.length; i++) this.value[i] = value.get(i);
     }
 
     public TAGLongArray(String name, long[] value){
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.length = value.length;
         this.size = this.calculateSize();
-        this.value = new ArrayList<>();
-        for(long l : value) this.value.add(l);
+        this.value = value.clone();
     }
 
     public TAGLongArray(String name){
@@ -58,7 +57,7 @@ public class TAGLongArray extends TAGComponent{
         result.append('[');
         for (int i = 0; i < this.length; i++){
             if (i != 0 && i + 1 != this.length) result.append(",\u0020");
-            result.append(this.value.get(i));
+            result.append(this.value[i]);
         }
         return result.append(']').toString();
     }
@@ -100,7 +99,7 @@ public class TAGLongArray extends TAGComponent{
                 values_bytes = new byte[values_size],
                 result = new byte[getValueSize()];
         for (int i = 0; i < this.length; i++) {
-            byte[] value_bytes = ByteBuffer.allocate(data_size).putLong(this.value.get(i)).array();
+            byte[] value_bytes = ByteBuffer.allocate(data_size).putLong(this.value[i]).array();
             System.arraycopy(value_bytes, 0, values_bytes, data_size * i, data_size);
         }
         System.arraycopy(length_bytes, 0, result, 0 , length_size);
