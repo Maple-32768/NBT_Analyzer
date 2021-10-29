@@ -21,6 +21,14 @@ public class TAGLong extends TAGComponent{
 		this(name, 0);
 	}
 
+	public void setValue(long value) {
+		this.value = value;
+	}
+
+	public long getValue() {
+		return this.value;
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

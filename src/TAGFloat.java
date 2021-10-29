@@ -21,6 +21,14 @@ public class TAGFloat extends TAGComponent{
 		this(name, 0f);
 	}
 
+	public void setValue(float value) {
+		this.value = value;
+	}
+
+	public float getValue() {
+		return this.value;
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

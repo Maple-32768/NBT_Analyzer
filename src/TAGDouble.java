@@ -20,6 +20,14 @@ public class TAGDouble extends TAGComponent{
 		this(name, 0d);
 	}
 
+	public void setValue(double value) {
+		this.value = value;
+	}
+
+	public double getValue() {
+		return this.value;
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;

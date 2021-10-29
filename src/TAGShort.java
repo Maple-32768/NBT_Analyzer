@@ -21,6 +21,14 @@ public class TAGShort extends TAGComponent{
 		this(name, (short) 0);
 	}
 
+	public void setValue(short value) {
+		this.value = value;
+	}
+
+	public short getValue() {
+		return this.value;
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;
