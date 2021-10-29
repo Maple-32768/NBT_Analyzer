@@ -42,11 +42,75 @@ public class TAGCompound extends TAGComponent{
         return sum;
     }
 
+    public void setValue(List<TAGComponent> value) {
+        this.value = value;
+        this.size = calculateSize();
+    }
+
+    public List<TAGComponent> getValue() {
+        return this.value;
+    }
+
+    public void add(TAGComponent c){
+        this.value.add(c);
+        this.size = calculateSize();
+    }
+
+    public boolean remove(TAGComponent c){
+        boolean result = this.value.remove(c);
+        if (result) this.size = calculateSize();
+        return result;
+    }
+
+    public boolean addAll(List<TAGComponent> c){
+        boolean result = this.value.addAll(c);
+        if (result) this.size = calculateSize();
+        return result;
+    }
+
+    public boolean addAll(int index, List<TAGComponent> c){
+        boolean result = this.value.addAll(index, c);
+        if (result) this.size = this.calculateSize();
+        return result;
+    }
+
+    public boolean removeAll(List<TAGComponent> c){
+        boolean result = this.value.removeAll(c);
+        if (result) this.size = this.calculateSize();
+        return result;
+    }
+
+    public boolean retainAll(List<TAGComponent> c){
+        boolean result = this.value.retainAll(c);
+        if (result) this.size = this.calculateSize();
+        return result;
+    }
+
+    public void clear(){
+        this.value.clear();
+        this.size = calculateSize();
+    }
+
+    public TAGComponent set(int index, TAGComponent element){
+        TAGComponent result = this.value.set(index, element);
+        this.size = this.calculateSize();
+        return result;
+    }
+
+    public void add(int index, TAGComponent c){
+        this.value.add(index, c);
+        this.size = this.calculateSize();
+    }
+
+    public void remove(int index){
+        this.value.remove(index);
+        this.size = this.calculateSize();
+    }
+
     @Override
     public TAGHeader getHeader() {
         return header;
     }
-
 
     public String toString(boolean json) {
         StringBuilder result = new StringBuilder();
