@@ -33,6 +33,16 @@ public class TAGString extends TAGComponent{
 		return length_size + data_size * this.length;
 	}
 
+	public void setValue(String value) {
+		this.length = (short) value.length();
+		this.value = value;
+		this.size = this.calculateSize();
+	}
+
+	public String getValue() {
+		return this.value;
+	}
+
 	@Override
 	public TAGHeader getHeader() {
 		return this.header;
