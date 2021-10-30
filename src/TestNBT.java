@@ -4,10 +4,16 @@ public class TestNBT {
 		TAGInt age = new TAGInt("age", 17);
 		TAGFloat height = new TAGFloat("height", 169.5f);
 		TAGString name = new TAGString("name", "Maple32768");
-		TAGComponent[] _play_games = {new TAGString("", "Minecraft"), new TAGString("", "GenshinImpact")};
-		TAGList play_games = new TAGList("play_games", 8, _play_games);
-		TAGCompound root = new TAGCompound("", new TAGComponent[]{name, age, height, play_games});
+		TAGList play_games = new TAGList("play_games");
+		play_games.add(new TAGString("", "Minecraft"));
+		play_games.add(new TAGString("", "GenshinImpact"));
+		TAGCompound root = new TAGCompound();
+		root.put(age);
+		root.put(height);
+		root.put(name);
+		root.put(play_games);
 		System.out.println(root);
+		System.out.println(root.getValue().get("age"));
 		byte[] data = root.getBytes();
 		for (int i = 0; i < data.length; i++) {
 			System.out.printf("%02x ", data[i]);

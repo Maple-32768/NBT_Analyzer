@@ -59,6 +59,11 @@ public class Main {
 	}
 
 	public static void Output(Path path, TAGComponent c){
+		byte[] data = c.getBytes();
+		for (int i = 0; i < data.length; i++) {
+			System.out.printf("%02x ", data[i]);
+			if((i + 1) % 12 == 0) System.out.println();
+		}
 		try{
 			DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(new GZIPOutputStream(Files.newOutputStream(path))));
 			dos.write(c.getBytes());
