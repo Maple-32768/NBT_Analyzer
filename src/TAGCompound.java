@@ -1,22 +1,23 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class TAGCompound extends TAGComponent{
     public static final byte TYPE_ID = 10;
 
     public TAGHeader header;
-    public List<TAGComponent> value;
+    public HashMap<String, TAGComponent> value;
     public int size;
 
     public TAGCompound(TAGHeader header, byte [] data){
         this.header = header;
-        this.value = new ArrayList<>();
+        this.value = new HashMap<>();
         byte[] data_temp = data.clone();
         while(true){
             TAGComponent c = TAGComponent.Analyze(data_temp);
-            this.value.add(c);
             if (c instanceof TAGEnd) break;
+            this.value.put(c.getHeader().tag_name, c);
             if (c.getSize() >= data_temp.length) throw new IllegalArgumentException("Invalid NBT format.");
             data_temp = Arrays.copyOfRange(data_temp, c.getSize(), data_temp.length);
         }
@@ -25,8 +26,8 @@ public class TAGCompound extends TAGComponent{
 
     public TAGCompound(String name, List<TAGComponent> value){
         this.header = TAGHeader.getInstance(getTypeId(), name);
-        this.value = new ArrayList<>();
-        this.value.addAll(value);
+        this.value = new HashMap<>();
+        for (TAGComponent c : value) this.value.put(c.getHeader().tag_name, c);
         this.size = this.calculateSize();
     }
 
@@ -38,54 +39,78 @@ public class TAGCompound extends TAGComponent{
         this(name, new ArrayList<>());
     }
 
+    public TAGCompound(){
+        this("");
+    }
+
     private int calculateSize() {
-        int sum = 0;
-        for (TAGComponent c : this.value) sum += c.getSize();
+        int sum = 1;
+        for (TAGComponent c : this.value.values()) sum += c.getSize();
         return sum;
     }
 
     public void setValue(List<TAGComponent> value) {
-        this.value = value;
+        for (TAGComponent c : value) this.value.put(c.getHeader().tag_name, c);
         this.size = calculateSize();
     }
 
-    public List<TAGComponent> getValue() {
+    public void setValue(TAGComponent[] value){
+        this.setValue(Arrays.asList(value));
+    }
+
+    public HashMap<String, TAGComponent> getValue() {
         return this.value;
     }
 
-    public void add(TAGComponent c){
-        this.value.add(c);
+    public void put(TAGComponent c){
+        this.value.put(c.getHeader().tag_name, c);
         this.size = calculateSize();
     }
 
+    public List<TAGComponent> putAll(List<TAGComponent> elements){
+        List<TAGComponent> result = new ArrayList<>();
+        for (TAGComponent c : elements) {
+            TAGComponent res = this.value.put(c.getHeader().tag_name, c);
+            if (res != null) result.add(res);
+        }
+        this.size = calculateSize();
+        return result;
+    }
+
+    public List<TAGComponent> putAll(TAGComponent[] elements){
+        return this.putAll(Arrays.asList(elements));
+    }
+
     public boolean remove(TAGComponent c){
-        boolean result = this.value.remove(c);
-        if (result) this.size = calculateSize();
+        boolean result = this.value.remove(c.getHeader().tag_name) != null;
+        this.size = calculateSize();
         return result;
     }
 
-    public boolean addAll(List<TAGComponent> c){
-        boolean result = this.value.addAll(c);
-        if (result) this.size = calculateSize();
+    public boolean removeAll(List<TAGComponent> elements){
+        boolean result = false;
+        for (TAGComponent c : elements) {
+            result = result || this.value.remove(c.getHeader().tag_name, c);
+        }
+        this.size = this.calculateSize();
         return result;
     }
 
-    public boolean addAll(int index, List<TAGComponent> c){
-        boolean result = this.value.addAll(index, c);
-        if (result) this.size = this.calculateSize();
+    public boolean removeAll(TAGComponent[] elements){
+        return this.removeAll(Arrays.asList(elements));
+    }
+
+    public boolean removeAllFromKeys(List<String> keys){
+        boolean result = false;
+        for (String key : keys) {
+            result = result || (this.value.remove(key) != null);
+        }
+        this.size = this.calculateSize();
         return result;
     }
 
-    public boolean removeAll(List<TAGComponent> c){
-        boolean result = this.value.removeAll(c);
-        if (result) this.size = this.calculateSize();
-        return result;
-    }
-
-    public boolean retainAll(List<TAGComponent> c){
-        boolean result = this.value.retainAll(c);
-        if (result) this.size = this.calculateSize();
-        return result;
+    public boolean removeAllFromKeys(String[] keys){
+        return this.removeAllFromKeys(Arrays.asList(keys));
     }
 
     public void clear(){
@@ -93,20 +118,16 @@ public class TAGCompound extends TAGComponent{
         this.size = calculateSize();
     }
 
-    public TAGComponent set(int index, TAGComponent element){
-        TAGComponent result = this.value.set(index, element);
+    public TAGComponent putIfAbsent(TAGComponent c){
+        TAGComponent result = this.value.putIfAbsent(c.getHeader().tag_name, c);
         this.size = this.calculateSize();
         return result;
     }
 
-    public void add(int index, TAGComponent c){
-        this.value.add(index, c);
+    public boolean replace(TAGComponent oldValue, TAGComponent newValue){
+        boolean result = this.value.replace(oldValue.getHeader().tag_name, oldValue, newValue);
         this.size = this.calculateSize();
-    }
-
-    public void remove(int index){
-        this.value.remove(index);
-        this.size = this.calculateSize();
+        return result;
     }
 
     @Override
@@ -114,14 +135,16 @@ public class TAGCompound extends TAGComponent{
         return header;
     }
 
+    @Override
     public String toString(boolean json) {
         StringBuilder result = new StringBuilder();
         result.append('{');
         for(int i = 0; i < this.value.size(); i++){
-            TAGComponent c = this.value.get(i);
+            TAGComponent c = (TAGComponent) this.value.values().toArray()[i];
             if (i != 0) result.append(",\u0020");
             result.append(c.getHeader()).append(c.toString(json));
         }
+        result.append(new TAGEnd());
         return result.append('}').toString();
     }
 
@@ -159,7 +182,7 @@ public class TAGCompound extends TAGComponent{
     public byte[] getValueBytes() {
         byte[] values_bytes = new byte[this.getValueSize()];
         int sum = 0;
-        for (TAGComponent c : this.value) {
+        for (TAGComponent c : this.value.values()) {
             byte[] value_bytes = c.getBytes();
             System.arraycopy(value_bytes, 0, values_bytes, sum, value_bytes.length);
             sum += c.getSize();
