@@ -52,6 +52,14 @@ public class TAGList extends TAGComponent{
         this(name, -1, new ArrayList<>());
     }
 
+    public TAGList(String name, byte type){
+        this(name, type, new ArrayList<>());
+    }
+
+    public TAGList(String name, int type){
+        this(name, (byte)type);
+    }
+
     public TAGList(String name, int type, TAGComponent [] value){
         this(name, (byte)type, value);
     }
@@ -62,7 +70,22 @@ public class TAGList extends TAGComponent{
         return sum;
     }
 
+    public void setValue(List<TAGComponent> c){
+        byte type = this.type == -1 ? c.get(0).getTypeId() : this.type;
+        for (TAGComponent tagComponent : c)
+            if (tagComponent.getTypeId() != type) throw new IllegalArgumentException("Different type of elements");
+        this.type = type;
+        this.length = c.size();
+        this.value = c;
+        this.size = this.calculateSize();
+    }
+
+    public List<TAGComponent> getValue() {
+        return this.value;
+    }
+
     public void add(TAGComponent c){
+        if (c.getTypeId() != this.type) throw new IllegalArgumentException("Different type of component");
         this.value.add(c);
         this.size = calculateSize();
     }
@@ -74,12 +97,18 @@ public class TAGList extends TAGComponent{
     }
 
     public boolean addAll(List<TAGComponent> c){
+        byte type = this.type == -1 ? c.get(0).getTypeId() : this.type;
+        for (TAGComponent tagComponent : c)
+            if (tagComponent.getTypeId() != type) throw new IllegalArgumentException("Different type of elements");
         boolean result = this.value.addAll(c);
         if (result) this.size = calculateSize();
         return result;
     }
 
     public boolean addAll(int index, List<TAGComponent> c){
+        byte type = this.type == -1 ? c.get(0).getTypeId() : this.type;
+        for (TAGComponent tagComponent : c)
+            if (tagComponent.getTypeId() != type) throw new IllegalArgumentException("Different type of elements");
         boolean result = this.value.addAll(index, c);
         if (result) this.size = this.calculateSize();
         return result;
@@ -103,12 +132,14 @@ public class TAGList extends TAGComponent{
     }
 
     public TAGComponent set(int index, TAGComponent element){
+        if (element.getTypeId() != this.type) throw new IllegalArgumentException("Different type of component");
         TAGComponent result = this.value.set(index, element);
         this.size = this.calculateSize();
         return result;
     }
 
     public void add(int index, TAGComponent c){
+        if (c.getTypeId() != this.type) throw new IllegalArgumentException("Different type of component");
         this.value.add(index, c);
         this.size = this.calculateSize();
     }
