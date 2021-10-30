@@ -18,7 +18,6 @@ public abstract class TAGComponent {
      * {@inheritDoc}
      * @return タグの文字列表現
      */
-    @Override
     abstract public String toString();
 
     abstract public String toString(boolean json);
