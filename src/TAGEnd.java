@@ -18,12 +18,12 @@ public class TAGEnd extends TAGComponent{
 
     @Override
     public String toString() {
-        return null;
+        return "";
     }
 
     @Override
     public String toString(boolean json) {
-        return null;
+        return "";
     }
 
     @Override
