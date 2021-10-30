@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TAGIntArray extends TAGComponent{
+	public static final byte TYPE_ID = 11;
+
 	private static final int length_size = Integer.SIZE /Byte.SIZE;
 	private static final int data_size = Integer.SIZE /Byte.SIZE;
 
@@ -80,7 +82,7 @@ public class TAGIntArray extends TAGComponent{
 
 	@Override
 	public byte getTypeId() {
-		return 11;
+		return TYPE_ID;
 	}
 
 	@Override

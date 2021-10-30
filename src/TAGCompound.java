@@ -3,6 +3,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TAGCompound extends TAGComponent{
+    public static final byte TYPE_ID = 10;
+
     public TAGHeader header;
     public List<TAGComponent> value;
     public int size;
@@ -130,7 +132,7 @@ public class TAGCompound extends TAGComponent{
 
     @Override
     public byte getTypeId() {
-        return 10;
+        return TYPE_ID;
     }
 
     @Override

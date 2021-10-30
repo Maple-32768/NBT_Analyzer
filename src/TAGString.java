@@ -3,6 +3,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class TAGString extends TAGComponent{
+	public static final byte TYPE_ID = 8;
+
 	private static final int length_size = Short.SIZE /Byte.SIZE;
 	private static final int data_size = 1;
 
@@ -60,7 +62,7 @@ public class TAGString extends TAGComponent{
 
 	@Override
 	public byte getTypeId() {
-		return 8;
+		return TYPE_ID;
 	}
 
 	@Override

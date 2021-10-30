@@ -2,6 +2,8 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class TAGInt extends TAGComponent{
+	public static final byte TYPE_ID = 3;
+
 	private static final int data_size = Integer.SIZE / Byte.SIZE;
 
 	public TAGHeader header;
@@ -46,7 +48,7 @@ public class TAGInt extends TAGComponent{
 
 	@Override
 	public byte getTypeId() {
-		return 3;
+		return TYPE_ID;
 	}
 
 	@Override

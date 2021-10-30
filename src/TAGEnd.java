@@ -1,4 +1,5 @@
 public class TAGEnd extends TAGComponent{
+    public static final byte TYPE_ID = 0;
 
     public TAGHeader header;
 
@@ -37,7 +38,7 @@ public class TAGEnd extends TAGComponent{
 
     @Override
     public byte getTypeId() {
-        return 0;
+        return TYPE_ID;
     }
 
     @Override
