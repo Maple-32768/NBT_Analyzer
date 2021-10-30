@@ -1,16 +1,64 @@
 import java.util.Arrays;
 
+/**
+ * NBTオブジェクトを実装する為の抽象クラスです。
+ * @author Maple32768
+ * @version 1.1
+ */
 public abstract class TAGComponent {
 
+    /**
+     * タグが持っているヘッダーオブジェクトを返します。
+     * @return タグのヘッダーオブジェクト
+     */
     abstract public TAGHeader getHeader();
+
+    /**
+     * タグの文字列表現を返します。
+     * {@inheritDoc}
+     * @return タグの文字列表現
+     */
+    @Override
     abstract public String toString();
+
     abstract public String toString(boolean json);
+
+    /**
+     * タグの種類によって固有のidを返します。
+     * @return タグの種類のid
+     */
     abstract public byte getTypeId();
+
+    /**
+     * ヘッダー部分を含めたタグ全体のバイト列のサイズを返します。
+     * @return ヘッダーを含めたタグのサイズ
+     */
     abstract public int getSize();
+
+    /**
+     * ヘッダー部分を除いたタグの値のみのバイト列のサイズを返します。
+     * @return タグの値のみのサイズ
+     */
     abstract public int getValueSize();
+
+    /**
+     * ヘッダー部分を含めたタグ全体のバイト配列を返します。
+     * @return ヘッダーを含めたタグのバイト配列
+     */
     abstract public byte[] getBytes();
+
+    /**
+     * ヘッダー部分を除いたタグの値のみのバイト配列を返します。
+     * @return タグの値のみのバイト配列
+     */
     abstract public byte[] getValueBytes();
 
+    /**
+     * バイト配列からNBTオブジェクトを生成し返します。
+     * バイト配列の形式からタグの種類を判別出来ない場合(先頭1バイトが0以上12以下ではなかった場合){@code null}を返します。
+     * @param data 解析対象のバイト配列
+     * @return 生成されたNBTオブジェクト
+     */
     public static TAGComponent Analyze(byte[] data){
         TAGComponent result = null;
         TAGHeader header = TAGHeader.getHeader(data);
@@ -65,13 +113,18 @@ public abstract class TAGComponent {
                 result = new TAGLongArray(header, data_temp);
                 break;
 
-            default:
-
         }
         return result;
     }
 
 
+    /**
+     * タグの種類とバイト配列から名前がないヘッダーを持つListタグの要素用のNBTオブジェクトを生成し返します。
+     * バイト配列の形式からタグの種類を判別出来ない場合(typeが0以上12以下ではなかった場合){@code null}を返します。
+     * @param type 目的のNBTタグの種類
+     * @param data 解析対象のバイト配列
+     * @return 解析されたNBTオブジェクト
+     */
     public static TAGComponent getNoHeaderComponent(byte type, byte[] data){
         TAGHeader null_header = TAGHeader.getNullHeader(type);
         switch (type){
