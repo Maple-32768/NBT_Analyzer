@@ -72,6 +72,10 @@ public class TAGList extends TAGComponent{
         return sum;
     }
 
+    public void setType(byte type){
+        this.type = type;
+    }
+
     public void setValue(List<TAGComponent> c){
         byte type = this.type == -1 ? c.get(0).getTypeId() : this.type;
         for (TAGComponent tagComponent : c)
@@ -82,12 +86,17 @@ public class TAGList extends TAGComponent{
         this.size = this.calculateSize();
     }
 
+    public void setValue(TAGComponent[] c){
+        this.setValue(Arrays.asList(c));
+    }
+
     public List<TAGComponent> getValue() {
         return this.value;
     }
 
     public void add(TAGComponent c){
-        if (c.getTypeId() != this.type) throw new IllegalArgumentException("Different type of component");
+        if (this.type == -1) this.type = c.getTypeId();
+        else if (c.getTypeId() != this.type) throw new IllegalArgumentException("Different type of component");
         this.value.add(c);
         this.size = calculateSize();
     }
@@ -107,6 +116,10 @@ public class TAGList extends TAGComponent{
         return result;
     }
 
+    public boolean addAll(TAGComponent[] c){
+        return this.addAll(Arrays.asList(c));
+    }
+
     public boolean addAll(int index, List<TAGComponent> c){
         byte type = this.type == -1 ? c.get(0).getTypeId() : this.type;
         for (TAGComponent tagComponent : c)
@@ -116,10 +129,18 @@ public class TAGList extends TAGComponent{
         return result;
     }
 
+    public boolean addAll(int index, TAGComponent[] c){
+        return this.addAll(index, Arrays.asList(c));
+    }
+
     public boolean removeAll(List<TAGComponent> c){
         boolean result = this.value.removeAll(c);
         if (result) this.size = this.calculateSize();
         return result;
+    }
+
+    public boolean removeAll(TAGComponent[] c){
+        return this.removeAll(Arrays.asList(c));
     }
 
     public boolean retainAll(List<TAGComponent> c){
@@ -128,12 +149,17 @@ public class TAGList extends TAGComponent{
         return result;
     }
 
+    public boolean retainAll(TAGComponent[] c){
+        return this.retainAll(Arrays.asList(c));
+    }
+
     public void clear(){
         this.value.clear();
         this.size = calculateSize();
     }
 
     public TAGComponent set(int index, TAGComponent element){
+        if (this.type == -1) throw new IllegalStateException("Unsetted type of list");
         if (element.getTypeId() != this.type) throw new IllegalArgumentException("Different type of component");
         TAGComponent result = this.value.set(index, element);
         this.size = this.calculateSize();
@@ -141,6 +167,7 @@ public class TAGList extends TAGComponent{
     }
 
     public void add(int index, TAGComponent c){
+        if (this.type == -1) this.type = c.getTypeId();
         if (c.getTypeId() != this.type) throw new IllegalArgumentException("Different type of component");
         this.value.add(index, c);
         this.size = this.calculateSize();
@@ -156,6 +183,7 @@ public class TAGList extends TAGComponent{
         return this.header;
     }
 
+    @Override
     public String toString(boolean json) {
         StringBuilder result = new StringBuilder();
         result.append('[');
