@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class TAGCompound extends TAGComponent{
     public static final byte TYPE_ID = 10;
@@ -17,7 +14,7 @@ public class TAGCompound extends TAGComponent{
         while(true){
             TAGComponent c = TAGComponent.Analyze(data_temp);
             if (c instanceof TAGEnd) break;
-            this.value.put(c.getHeader().tag_name, c);
+            this.value.put(Objects.requireNonNull(c).getHeader().tag_name, c);
             if (c.getSize() >= data_temp.length) throw new IllegalArgumentException("Invalid NBT format.");
             data_temp = Arrays.copyOfRange(data_temp, c.getSize(), data_temp.length);
         }

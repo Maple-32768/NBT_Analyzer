@@ -23,7 +23,7 @@ public class TAGList extends TAGComponent{
             TAGComponent c;
             c = getNoHeaderComponent(this.type, data_temp);
             value.add(c);
-            data_temp = Arrays.copyOfRange(data_temp, Objects.requireNonNull(c).getSize(), data_temp.length);
+            data_temp = Arrays.copyOfRange(data_temp, Objects.requireNonNull(c).getSize() - 1, data_temp.length);
         }
         this.size = this.calculateSize();
     }
