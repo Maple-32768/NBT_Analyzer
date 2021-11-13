@@ -2,96 +2,130 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class TAGString extends TAGComponent{
-	public static final byte TYPE_ID = 8;
+public class TAGString extends TAGComponent {
+    public static final byte TYPE_ID = 8;
 
-	private static final int length_size = Short.SIZE /Byte.SIZE;
-	private static final int data_size = 1;
+    private static final int length_size = Short.SIZE / Byte.SIZE;
+    private static final int data_size = 1;
 
-	public TAGHeader header;
-	public short length;
-	public String value;
-	public int size;
+    public TAGComponent parent;
+    public TAGHeader header;
+    public short length;
+    public String value;
+    public int size;
 
-	public TAGString(TAGHeader header, byte[] data) {
-		this.header = header;
-		this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getShort();
-		this.size = this.calculateSize();
-		this.value = new String(Arrays.copyOfRange(data, length_size, length_size + length * data_size));
-	}
+    public TAGString(TAGHeader header, byte[] data) {
+        this.parent = null;
+        this.header = header;
+        this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getShort();
+        this.size = this.calculateSize();
+        this.value = new String(Arrays.copyOfRange(data, length_size, length_size + length * data_size));
+    }
 
-	public TAGString(String name, String value){
-		this.header = TAGHeader.getInstance(getTypeId(), name);
-		this.length = (short) value.length();
-		this.size = this.calculateSize();
-		this.value = value;
-	}
+    public TAGString(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
+        this(header, data);
+        this.setParent(parent);
+    }
 
-	public TAGString(String name){
-		this(name, "");
-	}
+    public TAGString(String name, String value) {
+        this.parent = null;
+        this.header = TAGHeader.getInstance(getTypeId(), name);
+        this.length = (short) value.length();
+        this.size = this.calculateSize();
+        this.value = value;
+    }
 
-	private int calculateSize() {
-		return length_size + data_size * this.length;
-	}
+    public TAGString(TAGComponent parent, String name, String value) throws IllegalArgumentException {
+        this(name, value);
+        this.setParent(parent);
+    }
 
-	public void setValue(String value) {
-		this.length = (short) value.length();
-		this.value = value;
-		this.size = this.calculateSize();
-	}
+    public TAGString(String name) {
+        this(name, "");
+    }
 
-	public String getValue() {
-		return this.value;
-	}
+    public TAGString(TAGComponent parent, String name) {
+        this(parent, name, "");
+    }
 
-	@Override
-	public TAGHeader getHeader() {
-		return this.header;
-	}
+    private int calculateSize() {
+        return length_size + data_size * this.length;
+    }
 
-	@Override
-	public String toString() {
-		return '\"' + this.value + '\"';
-	}
+    public void setValue(String value) {
+        this.length = (short) value.length();
+        this.value = value;
+        this.size = this.calculateSize();
+    }
 
-	@Override
-	public String toString(boolean json) {
-		return this.toString();
-	}
+    public String getValue() {
+        return this.value;
+    }
 
-	@Override
-	public byte getTypeId() {
-		return TYPE_ID;
-	}
+    @Override
+    public TAGHeader getHeader() {
+        return this.header;
+    }
 
-	@Override
-	public int getSize() {
-		return this.header.size + this.size;
-	}
+    @Override
+    public String toString() {
+        return '\"' + this.value + '\"';
+    }
 
-	@Override
-	public int getValueSize() {
-		return this.size;
-	}
+    @Override
+    public String toString(boolean json) {
+        return this.toString();
+    }
 
-	@Override
-	public byte[] getBytes() {
-		byte[] header_bytes = this.header.getBytes(),
-				value_bytes = this.getValueBytes(),
-				result = new byte[getSize()];
-		System.arraycopy(header_bytes, 0, result, 0, header_bytes.length);
-		System.arraycopy(value_bytes, 0, result, header_bytes.length, value_bytes.length);
-		return result;
-	}
+    @Override
+    public byte getTypeId() {
+        return TYPE_ID;
+    }
 
-	@Override
-	public byte[] getValueBytes() {
-		byte[] length_bytes = ByteBuffer.allocate(length_size).putShort(this.length).array(),
-				value_bytes = this.value.getBytes(StandardCharsets.UTF_8),
-				result = new byte[length_size + data_size * length];
-		System.arraycopy(length_bytes, 0, result, 0, length_bytes.length);
-		System.arraycopy(value_bytes, 0, result, length_bytes.length, value_bytes.length);
-		return result;
-	}
+    @Override
+    public int getSize() {
+        return this.header.size + this.size;
+    }
+
+    @Override
+    public int getValueSize() {
+        return this.size;
+    }
+
+    @Override
+    public byte[] getBytes() {
+        byte[] header_bytes = this.header.getBytes(),
+                value_bytes = this.getValueBytes(),
+                result = new byte[getSize()];
+        System.arraycopy(header_bytes, 0, result, 0, header_bytes.length);
+        System.arraycopy(value_bytes, 0, result, header_bytes.length, value_bytes.length);
+        return result;
+    }
+
+    @Override
+    public byte[] getValueBytes() {
+        byte[] length_bytes = ByteBuffer.allocate(length_size).putShort(this.length).array(),
+                value_bytes = this.value.getBytes(StandardCharsets.UTF_8),
+                result = new byte[length_size + data_size * length];
+        System.arraycopy(length_bytes, 0, result, 0, length_bytes.length);
+        System.arraycopy(value_bytes, 0, result, length_bytes.length, value_bytes.length);
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param parent 親のNBTオブジェクト
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setParent(TAGComponent parent) {
+        if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
+        this.parent = parent;
+    }
+
+    @Override
+    public TAGComponent getParent() {
+        return this.parent;
+    }
 }
