@@ -28,11 +28,6 @@ public class TAGByteArray extends TAGComponent {
         }
     }
 
-    public TAGByteArray(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
-    }
-
     public TAGByteArray(String name, List<Byte> value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
@@ -40,11 +35,6 @@ public class TAGByteArray extends TAGComponent {
         this.size = this.calculateSize();
         this.value = new byte[this.length];
         for (int i = 0; i < this.length; i++) this.value[i] = value.get(i);
-    }
-
-    public TAGByteArray(TAGComponent parent, String name, List<Byte> value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
     }
 
     public TAGByteArray(String name, byte[] value) {
@@ -55,17 +45,8 @@ public class TAGByteArray extends TAGComponent {
         this.value = value.clone();
     }
 
-    public TAGByteArray(TAGComponent parent, String name, byte[] value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
-    }
-
     public TAGByteArray(String name) {
         this(name, new ArrayList<>());
-    }
-
-    public TAGByteArray(TAGComponent parent, String name) throws IllegalArgumentException {
-        this(parent, name, new ArrayList<>());
     }
 
     private int calculateSize() {
@@ -153,7 +134,7 @@ public class TAGByteArray extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

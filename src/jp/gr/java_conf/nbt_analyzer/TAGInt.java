@@ -18,28 +18,14 @@ public class TAGInt extends TAGComponent {
         value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getInt();
     }
 
-    public TAGInt(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
-    }
-
     public TAGInt(String name, int value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.value = value;
     }
 
-    public TAGInt(TAGComponent parent, String name, int value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
-    }
-
     public TAGInt(String name) {
         this(name, 0);
-    }
-
-    public TAGInt(TAGComponent parent, String name) {
-        this(parent, name, 0);
     }
 
     public void setValue(int value) {
@@ -102,7 +88,7 @@ public class TAGInt extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

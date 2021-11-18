@@ -42,11 +42,6 @@ public class TAGIntArray extends TAGComponent {
         for (int i = 0; i < this.length; i++) this.value[i] = value.get(i);
     }
 
-    public TAGIntArray(TAGComponent parent, String name, List<Integer> value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
-    }
-
     public TAGIntArray(String name, int[] value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
@@ -55,17 +50,8 @@ public class TAGIntArray extends TAGComponent {
         this.value = value.clone();
     }
 
-    public TAGIntArray(TAGComponent parent, String name, int[] value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
-    }
-
     public TAGIntArray(String name) {
         this(name, new ArrayList<>());
-    }
-
-    public TAGIntArray(TAGComponent parent, String name) throws IllegalArgumentException {
-        this(parent, name, new ArrayList<>());
     }
 
     private int calculateSize() {
@@ -152,7 +138,7 @@ public class TAGIntArray extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

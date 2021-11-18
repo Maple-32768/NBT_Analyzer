@@ -44,18 +44,6 @@ public class TAGByte extends TAGComponent {
     }
 
     /**
-     * ヘッダーオブジェクトとデータ部分から始まるバイト配列からデータを取り出し、親のNBTオブジェクトを指定してByteタグのインスタンスを生成します。
-     *
-     * @param parent タグの親のNBTオブジェクト
-     * @param header タグのヘッダーオブジェクト
-     * @param data   タグのデータ部分から始まるバイト配列
-     */
-    public TAGByte(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
-    }
-
-    /**
      * タグの名前を指定してデフォルト値({@code 0})を持ったByteタグのインスタンスを生成します。
      *
      * @param name タグの名前
@@ -63,17 +51,6 @@ public class TAGByte extends TAGComponent {
     public TAGByte(String name) {
         this(name, (byte) 0);
     }
-
-    /**
-     * タグの名前を指定してデフォルト値({@code 0})を持ったByteタグのインスタンスを生成します。
-     *
-     * @param parent タグの親のNBTオブジェクト
-     * @param name   タグの名前
-     */
-    public TAGByte(TAGComponent parent, String name) {
-        this(parent, name, (byte) 0);
-    }
-
 
     /**
      * タグの名前と値を指定してByteタグのインスタンスを生成します。
@@ -85,18 +62,6 @@ public class TAGByte extends TAGComponent {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.value = value;
-    }
-
-    /**
-     * タグの名前と値を指定してByteタグのインスタンスを生成します。
-     *
-     * @param parent タグの親のNBTオブジェクト
-     * @param name   タグの名前
-     * @param value  値
-     */
-    public TAGByte(TAGComponent parent, String name, byte value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
     }
 
     /**
@@ -206,7 +171,7 @@ public class TAGByte extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

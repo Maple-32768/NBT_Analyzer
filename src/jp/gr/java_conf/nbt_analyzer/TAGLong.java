@@ -18,28 +18,14 @@ public class TAGLong extends TAGComponent {
         value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getLong();
     }
 
-    public TAGLong(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
-    }
-
     public TAGLong(String name, long value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.value = value;
     }
 
-    public TAGLong(TAGComponent parent, String name, long value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
-    }
-
     public TAGLong(String name) {
         this(name, 0L);
-    }
-
-    public TAGLong(TAGComponent parent, String name) {
-        this(parent, name, 0L);
     }
 
 
@@ -104,7 +90,7 @@ public class TAGLong extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

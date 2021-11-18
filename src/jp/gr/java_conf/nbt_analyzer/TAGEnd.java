@@ -1,10 +1,7 @@
 package jp.gr.java_conf.nbt_analyzer;
 
 /**
- * NBTのEndタグを扱う具象クラスです。
- *
- * @author Maple32768
- * @version 1.1
+ * NBTのEndタグを扱う具象クラスです。 * * @author Maple32768 * @version 1.1
  */
 public class TAGEnd extends TAGComponent {
     /**
@@ -15,7 +12,6 @@ public class TAGEnd extends TAGComponent {
      * タグの親のNBTオブジェクト
      */
     public TAGComponent parent;
-
     /**
      * タグのヘッダーオブジェクト
      */
@@ -30,17 +26,7 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * Endタグのインスタンスを生成します。
-     */
-    public TAGEnd(TAGComponent parent) throws IllegalArgumentException {
-        this();
-        this.setParent(parent);
-    }
-
-    /**
-     * ヘッダーからEndタグのインスタンスを生成します。
-     *
-     * @param header タグのヘッダーオブジェクト
+     * ヘッダーからEndタグのインスタンスを生成します。     *     * @param header タグのヘッダーオブジェクト
      */
     public TAGEnd(TAGHeader header) {
         this.parent = null;
@@ -48,9 +34,7 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * ヘッダーからEndタグのインスタンスを生成します。
-     *
-     * @param header タグのヘッダーオブジェクト
+     * ヘッダーからEndタグのインスタンスを生成します。     *     * @param header タグのヘッダーオブジェクト
      */
     public TAGEnd(TAGComponent parent, TAGHeader header) throws IllegalArgumentException {
         this(header);
@@ -58,9 +42,7 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @return タグのヘッダーオブジェクト
+     * {@inheritDoc}     *     * @return タグのヘッダーオブジェクト
      */
     @Override
     public TAGHeader getHeader() {
@@ -68,10 +50,7 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * {@inheritDoc}
-     * これは常に空文字列です。
-     *
-     * @return タグの文字列表現
+     * {@inheritDoc}     * これは常に空文字列です。     *     * @return タグの文字列表現
      */
     @Override
     public String toString() {
@@ -84,10 +63,7 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * {@inheritDoc}
-     * これは常に{@code 0}です。
-     *
-     * @return タグの種類のid
+     * {@inheritDoc}     * これは常に{@code 0}です。     *     * @return タグの種類のid
      */
     @Override
     public byte getTypeId() {
@@ -95,9 +71,7 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @return ヘッダーを含めたタグのサイズ
+     * {@inheritDoc}     *     * @return ヘッダーを含めたタグのサイズ
      */
     @Override
     public int getSize() {
@@ -105,9 +79,7 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @return タグの値のみのサイズ
+     * {@inheritDoc}     *     * @return タグの値のみのサイズ
      */
     @Override
     public int getValueSize() {
@@ -115,9 +87,7 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @return ヘッダーを含めたタグのバイト配列
+     * {@inheritDoc}     *     * @return ヘッダーを含めたタグのバイト配列
      */
     @Override
     public byte[] getBytes() {
@@ -125,9 +95,7 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @return タグの値のみのバイト配列
+     * {@inheritDoc}     *     * @return タグの値のみのバイト配列
      */
     @Override
     public byte[] getValueBytes() {
@@ -135,21 +103,16 @@ public class TAGEnd extends TAGComponent {
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param parent 親のNBTオブジェクト
-     * @throws IllegalArgumentException
+     * {@inheritDoc}     *     * @param parent 親のNBTオブジェクト     * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @return タグの親のNBTオブジェクト
+     * {@inheritDoc}     *     * @return タグの親のNBTオブジェクト
      */
     @Override
     public TAGComponent getParent() {

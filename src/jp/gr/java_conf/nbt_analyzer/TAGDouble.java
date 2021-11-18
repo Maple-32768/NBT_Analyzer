@@ -18,28 +18,14 @@ public class TAGDouble extends TAGComponent {
         value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getDouble();
     }
 
-    public TAGDouble(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
-    }
-
     public TAGDouble(String name, double value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.value = value;
     }
 
-    public TAGDouble(TAGComponent parent, String name, double value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
-    }
-
     public TAGDouble(String name) {
         this(name, 0d);
-    }
-
-    public TAGDouble(TAGComponent parent, String name) {
-        this(parent, name, 0d);
     }
 
     public void setValue(double value) {
@@ -102,7 +88,7 @@ public class TAGDouble extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

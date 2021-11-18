@@ -18,16 +18,6 @@ public class TAGShort extends TAGComponent {
         value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getShort();
     }
 
-    public TAGShort(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
-    }
-
-    public TAGShort(TAGComponent parent, String name, short value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
-    }
-
     public TAGShort(String name, short value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
@@ -36,10 +26,6 @@ public class TAGShort extends TAGComponent {
 
     public TAGShort(String name) {
         this(name, (short) 0);
-    }
-
-    public TAGShort(TAGComponent parent, String name) {
-        this(parent, name, (short) 0);
     }
 
     public void setValue(short value) {
@@ -102,7 +88,7 @@ public class TAGShort extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

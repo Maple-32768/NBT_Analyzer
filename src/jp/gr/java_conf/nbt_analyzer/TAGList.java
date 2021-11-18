@@ -25,16 +25,11 @@ public class TAGList extends TAGComponent {
         byte[] data_temp = Arrays.copyOfRange(data, type_size + length_size, data.length);
         for (int i = 0; i < this.length; i++) {
             TAGComponent c;
-            c = getNoHeaderComponent(this, this.type, data_temp);
+            c = getNoHeaderComponent(this.type, data_temp);
             value.add(c);
             data_temp = Arrays.copyOfRange(data_temp, Objects.requireNonNull(c).getSize() - 1, data_temp.length);
         }
         this.size = this.calculateSize();
-    }
-
-    public TAGList(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
     }
 
     public TAGList(String name, byte type, List<TAGComponent> value) {
@@ -47,18 +42,8 @@ public class TAGList extends TAGComponent {
         this.size = this.calculateSize();
     }
 
-    public TAGList(TAGComponent parent, String name, byte type, List<TAGComponent> value) throws IllegalArgumentException {
-        this(name, type, value);
-        this.setParent(parent);
-    }
-
     public TAGList(String name, int type, List<TAGComponent> value) {
         this(name, (byte) type, value);
-    }
-
-    public TAGList(TAGComponent parent, String name, int type, List<TAGComponent> value) throws IllegalArgumentException {
-        this(name, (byte) type, value);
-        this.setParent(parent);
     }
 
     public TAGList(String name, byte type, TAGComponent[] value) {
@@ -71,45 +56,20 @@ public class TAGList extends TAGComponent {
         this.size = this.calculateSize();
     }
 
-    public TAGList(TAGComponent parent, String name, byte type, TAGComponent[] value) throws IllegalArgumentException {
-        this(name, type, value);
-        this.setParent(parent);
-    }
-
     public TAGList(String name) {
         this(name, -1, new ArrayList<>());
-    }
-
-    public TAGList(TAGComponent parent, String name) throws IllegalArgumentException {
-        this(name, -1, new ArrayList<>());
-        this.setParent(parent);
     }
 
     public TAGList(String name, byte type) {
         this(name, type, new ArrayList<>());
     }
 
-    public TAGList(TAGComponent parent, String name, byte type) throws IllegalArgumentException {
-        this(name, type, new ArrayList<>());
-        this.setParent(parent);
-    }
-
     public TAGList(String name, int type) {
         this(name, (byte) type);
     }
 
-    public TAGList(TAGComponent parent, String name, int type) throws IllegalArgumentException {
-        this(name, (byte) type);
-        this.setParent(parent);
-    }
-
     public TAGList(String name, int type, TAGComponent[] value) {
         this(name, (byte) type, value);
-    }
-
-    public TAGList(TAGComponent parent, String name, int type, TAGComponent[] value) throws IllegalArgumentException {
-        this(name, (byte) type, value);
-        this.setParent(parent);
     }
 
     private int calculateSize() {
@@ -166,7 +126,7 @@ public class TAGList extends TAGComponent {
             if (tagComponent.getTypeId() != type) throw new IllegalArgumentException("Different type of elements");
         boolean result = this.value.addAll(c);
         if (result) {
-            for (TAGComponent e : c){
+            for (TAGComponent e : c) {
                 e.setParent(this);
             }
             this.size = calculateSize();
@@ -184,7 +144,7 @@ public class TAGList extends TAGComponent {
             if (tagComponent.getTypeId() != type) throw new IllegalArgumentException("Different type of elements");
         boolean result = this.value.addAll(index, c);
         if (result) {
-            for (TAGComponent e : c){
+            for (TAGComponent e : c) {
                 e.setParent(this);
             }
             this.size = calculateSize();
@@ -199,7 +159,7 @@ public class TAGList extends TAGComponent {
     public boolean removeAll(List<TAGComponent> c) {
         boolean result = this.value.removeAll(c);
         if (result) {
-            for (TAGComponent e : c){
+            for (TAGComponent e : c) {
                 e.setParent(null);
             }
             this.size = calculateSize();
@@ -328,7 +288,7 @@ public class TAGList extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

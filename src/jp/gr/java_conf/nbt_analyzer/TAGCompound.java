@@ -16,18 +16,13 @@ public class TAGCompound extends TAGComponent {
         this.value = new HashMap<>();
         byte[] data_temp = data.clone();
         while (true) {
-            TAGComponent c = TAGComponent.Analyze(this, data_temp);
+            TAGComponent c = TAGComponent.Analyze(data_temp);
             if (c instanceof TAGEnd) break;
             this.value.put(Objects.requireNonNull(c).getHeader().tag_name, c);
             if (c.getSize() >= data_temp.length) throw new IllegalArgumentException("Invalid NBT format.");
             data_temp = Arrays.copyOfRange(data_temp, c.getSize(), data_temp.length);
         }
         this.size = this.calculateSize();
-    }
-
-    public TAGCompound(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
     }
 
     public TAGCompound(String name, List<TAGComponent> value) {
@@ -41,27 +36,12 @@ public class TAGCompound extends TAGComponent {
         this.size = this.calculateSize();
     }
 
-    public TAGCompound(TAGComponent parent, String name, List<TAGComponent> value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
-    }
-
     public TAGCompound(String name, TAGComponent[] value) {
         this(name, Arrays.asList(value));
     }
 
-    public TAGCompound(TAGComponent parent, String name, TAGComponent[] value) throws IllegalArgumentException {
-        this(name, Arrays.asList(value));
-        this.setParent(parent);
-    }
-
     public TAGCompound(String name) {
         this(name, new ArrayList<>());
-    }
-
-    public TAGCompound(TAGComponent parent, String name) throws IllegalArgumentException {
-        this(name, new ArrayList<>());
-        this.setParent(parent);
     }
 
     public TAGCompound() {
@@ -129,7 +109,7 @@ public class TAGCompound extends TAGComponent {
     public boolean removeAll(List<TAGComponent> elements) {
         boolean result = false;
         for (TAGComponent c : elements) {
-            boolean result1 =this.value.remove(c.getHeader().tag_name, c);
+            boolean result1 = this.value.remove(c.getHeader().tag_name, c);
             if (result1) c.setParent(null);
             result = result || result1;
         }
@@ -171,7 +151,7 @@ public class TAGCompound extends TAGComponent {
 
     public boolean replace(TAGComponent oldValue, TAGComponent newValue) {
         boolean result = this.value.replace(oldValue.getHeader().tag_name, oldValue, newValue);
-        if (result){
+        if (result) {
             oldValue.setParent(null);
             newValue.setParent(this);
         }
@@ -246,7 +226,7 @@ public class TAGCompound extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

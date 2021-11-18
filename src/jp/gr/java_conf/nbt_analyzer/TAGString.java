@@ -24,11 +24,6 @@ public class TAGString extends TAGComponent {
         this.value = new String(Arrays.copyOfRange(data, length_size, length_size + length * data_size));
     }
 
-    public TAGString(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
-    }
-
     public TAGString(String name, String value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
@@ -37,17 +32,8 @@ public class TAGString extends TAGComponent {
         this.value = value;
     }
 
-    public TAGString(TAGComponent parent, String name, String value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
-    }
-
     public TAGString(String name) {
         this(name, "");
-    }
-
-    public TAGString(TAGComponent parent, String name) {
-        this(parent, name, "");
     }
 
     private int calculateSize() {
@@ -121,7 +107,7 @@ public class TAGString extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

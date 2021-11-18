@@ -18,20 +18,10 @@ public class TAGFloat extends TAGComponent {
         this.value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getFloat();
     }
 
-    public TAGFloat(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
-        this(header, data);
-        this.setParent(parent);
-    }
-
     public TAGFloat(String name, float value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.value = value;
-    }
-
-    public TAGFloat(TAGComponent parent, String name, float value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
     }
 
     public TAGFloat(String name) {
@@ -98,7 +88,7 @@ public class TAGFloat extends TAGComponent {
      * @throws IllegalArgumentException
      */
     @Override
-    public void setParent(TAGComponent parent) {
+    public void setParent(TAGComponent parent) throws IllegalArgumentException {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }

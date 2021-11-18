@@ -65,12 +65,12 @@ public abstract class TAGComponent {
     abstract public byte[] getValueBytes();
 
     /**
-     * {@inheritDoc}
+     * タグの親オブジェクトを変更します。
      *
      * @param parent 親のNBTオブジェクト
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException 親オブジェクトが子オブジェクトを持つことができない場合
      */
-    abstract public void setParent(TAGComponent parent);
+    abstract public void setParent(TAGComponent parent) throws IllegalArgumentException;
 
     /**
      * タグが属する親のNBTオブジェクトを返します。
@@ -90,61 +90,57 @@ public abstract class TAGComponent {
      * @return 生成されたNBTオブジェクト
      */
     public static TAGComponent Analyze(byte[] data) {
-        return Analyze(null, data);
-    }
-
-    public static TAGComponent Analyze(TAGComponent parent, byte[] data) {
         TAGComponent result = null;
         TAGHeader header = TAGHeader.getHeader(data);
         if (header.type == 0) return new TAGEnd(header);
         byte[] data_temp = Arrays.copyOfRange(data, header.size, data.length);
         switch (header.type) {
             case 1:
-                result = new TAGByte(parent, header, data_temp);
+                result = new TAGByte(header, data_temp);
                 break;
 
             case 2:
-                result = new TAGShort(parent, header, data_temp);
+                result = new TAGShort(header, data_temp);
                 break;
 
             case 3:
-                result = new TAGInt(parent, header, data_temp);
+                result = new TAGInt(header, data_temp);
                 break;
 
             case 4:
-                result = new TAGLong(parent, header, data_temp);
+                result = new TAGLong(header, data_temp);
                 break;
 
             case 5:
-                result = new TAGFloat(parent, header, data_temp);
+                result = new TAGFloat(header, data_temp);
                 break;
 
             case 6:
-                result = new TAGDouble(parent, header, data_temp);
+                result = new TAGDouble(header, data_temp);
                 break;
 
             case 7:
-                result = new TAGByteArray(parent, header, data_temp);
+                result = new TAGByteArray(header, data_temp);
                 break;
 
             case 8:
-                result = new TAGString(parent, header, data_temp);
+                result = new TAGString(header, data_temp);
                 break;
 
             case 9:
-                result = new TAGList(parent, header, data_temp);
+                result = new TAGList(header, data_temp);
                 break;
 
             case 10:
-                result = new TAGCompound(parent, header, data_temp);
+                result = new TAGCompound(header, data_temp);
                 break;
 
             case 11:
-                result = new TAGIntArray(parent, header, data_temp);
+                result = new TAGIntArray(header, data_temp);
                 break;
 
             case 12:
-                result = new TAGLongArray(parent, header, data_temp);
+                result = new TAGLongArray(header, data_temp);
                 break;
 
         }
@@ -161,50 +157,46 @@ public abstract class TAGComponent {
      * @return 解析されたNBTオブジェクト
      */
     public static TAGComponent getNoHeaderComponent(byte type, byte[] data) {
-        return getNoHeaderComponent(null, type, data);
-    }
-
-    public static TAGComponent getNoHeaderComponent(TAGComponent parent, byte type, byte[] data) {
         TAGHeader null_header = TAGHeader.getNullHeader(type);
         switch (type) {
             case 0:
-                return new TAGEnd(parent, null_header);
+                return new TAGEnd(null_header);
 
             case 1:
-                return new TAGByte(parent, null_header, data);
+                return new TAGByte(null_header, data);
 
             case 2:
-                return new TAGShort(parent, null_header, data);
+                return new TAGShort(null_header, data);
 
             case 3:
-                return new TAGInt(parent, null_header, data);
+                return new TAGInt(null_header, data);
 
             case 4:
-                return new TAGLong(parent, null_header, data);
+                return new TAGLong(null_header, data);
 
             case 5:
-                return new TAGFloat(parent, null_header, data);
+                return new TAGFloat(null_header, data);
 
             case 6:
-                return new TAGDouble(parent, null_header, data);
+                return new TAGDouble(null_header, data);
 
             case 7:
-                return new TAGByteArray(parent, null_header, data);
+                return new TAGByteArray(null_header, data);
 
             case 8:
-                return new TAGString(parent, null_header, data);
+                return new TAGString(null_header, data);
 
             case 9:
-                return new TAGList(parent, null_header, data);
+                return new TAGList(null_header, data);
 
             case 10:
-                return new TAGCompound(parent, null_header, data);
+                return new TAGCompound(null_header, data);
 
             case 11:
-                return new TAGIntArray(parent, null_header, data);
+                return new TAGIntArray(null_header, data);
 
             case 12:
-                return new TAGLongArray(parent, null_header, data);
+                return new TAGLongArray(null_header, data);
 
         }
         return null;
