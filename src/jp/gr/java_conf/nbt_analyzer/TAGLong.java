@@ -1,50 +1,53 @@
+package jp.gr.java_conf.nbt_analyzer;
+
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class TAGDouble extends TAGComponent {
-    public static final byte TYPE_ID = 6;
+public class TAGLong extends TAGComponent {
+    public static final byte TYPE_ID = 4;
 
-    private static final int data_size = Double.SIZE / Byte.SIZE;
+    private static final int data_size = Long.SIZE / Byte.SIZE;
 
     public TAGComponent parent;
     public TAGHeader header;
-    public double value;
+    public long value;
 
-    public TAGDouble(TAGHeader header, byte[] data) {
+    public TAGLong(TAGHeader header, byte[] data) {
         this.parent = null;
         this.header = header;
-        value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getDouble();
+        value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getLong();
     }
 
-    public TAGDouble(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
+    public TAGLong(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
         this(header, data);
         this.setParent(parent);
     }
 
-    public TAGDouble(String name, double value) {
+    public TAGLong(String name, long value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.value = value;
     }
 
-    public TAGDouble(TAGComponent parent, String name, double value) throws IllegalArgumentException {
+    public TAGLong(TAGComponent parent, String name, long value) throws IllegalArgumentException {
         this(name, value);
         this.setParent(parent);
     }
 
-    public TAGDouble(String name) {
-        this(name, 0d);
+    public TAGLong(String name) {
+        this(name, 0L);
     }
 
-    public TAGDouble(TAGComponent parent, String name) {
-        this(parent, name, 0d);
+    public TAGLong(TAGComponent parent, String name) {
+        this(parent, name, 0L);
     }
 
-    public void setValue(double value) {
+
+    public void setValue(long value) {
         this.value = value;
     }
 
-    public double getValue() {
+    public long getValue() {
         return this.value;
     }
 
@@ -62,6 +65,7 @@ public class TAGDouble extends TAGComponent {
     public String toString(boolean json) {
         return this.toString();
     }
+
 
     @Override
     public byte getTypeId() {
@@ -90,7 +94,7 @@ public class TAGDouble extends TAGComponent {
 
     @Override
     public byte[] getValueBytes() {
-        return ByteBuffer.allocate(data_size).putDouble(this.value).array();
+        return ByteBuffer.allocate(data_size).putLong(this.value).array();
     }
 
     /**

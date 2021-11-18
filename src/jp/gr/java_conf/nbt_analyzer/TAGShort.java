@@ -1,50 +1,52 @@
+package jp.gr.java_conf.nbt_analyzer;
+
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class TAGInt extends TAGComponent {
-    public static final byte TYPE_ID = 3;
+public class TAGShort extends TAGComponent {
+    public static final byte TYPE_ID = 2;
 
-    private static final int data_size = Integer.SIZE / Byte.SIZE;
+    private static final int data_size = Short.SIZE / Byte.SIZE;
 
     public TAGComponent parent;
     public TAGHeader header;
-    public int value;
+    public short value;
 
-    public TAGInt(TAGHeader header, byte[] data) {
+    public TAGShort(TAGHeader header, byte[] data) {
         this.parent = null;
         this.header = header;
-        value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getInt();
+        value = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, data_size)).getShort();
     }
 
-    public TAGInt(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
+    public TAGShort(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
         this(header, data);
         this.setParent(parent);
     }
 
-    public TAGInt(String name, int value) {
+    public TAGShort(TAGComponent parent, String name, short value) throws IllegalArgumentException {
+        this(name, value);
+        this.setParent(parent);
+    }
+
+    public TAGShort(String name, short value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.value = value;
     }
 
-    public TAGInt(TAGComponent parent, String name, int value) throws IllegalArgumentException {
-        this(name, value);
-        this.setParent(parent);
+    public TAGShort(String name) {
+        this(name, (short) 0);
     }
 
-    public TAGInt(String name) {
-        this(name, 0);
+    public TAGShort(TAGComponent parent, String name) {
+        this(parent, name, (short) 0);
     }
 
-    public TAGInt(TAGComponent parent, String name) {
-        this(parent, name, 0);
-    }
-
-    public void setValue(int value) {
+    public void setValue(short value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public short getValue() {
         return this.value;
     }
 
@@ -90,7 +92,7 @@ public class TAGInt extends TAGComponent {
 
     @Override
     public byte[] getValueBytes() {
-        return ByteBuffer.allocate(data_size).putInt(this.value).array();
+        return ByteBuffer.allocate(data_size).putShort(this.value).array();
     }
 
     /**
@@ -107,6 +109,6 @@ public class TAGInt extends TAGComponent {
 
     @Override
     public TAGComponent getParent() {
-        return this.parent;
+        return null;
     }
 }

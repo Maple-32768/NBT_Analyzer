@@ -1,51 +1,53 @@
+package jp.gr.java_conf.nbt_analyzer;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TAGIntArray extends TAGComponent {
-    public static final byte TYPE_ID = 11;
+public class TAGLongArray extends TAGComponent {
+    public static final byte TYPE_ID = 12;
 
-    private static final int length_size = Integer.SIZE / Byte.SIZE;
-    private static final int data_size = Integer.SIZE / Byte.SIZE;
+    private static final int length_size = Long.SIZE / Byte.SIZE;
+    private static final int data_size = Long.SIZE / Byte.SIZE;
 
     public TAGComponent parent;
     public TAGHeader header;
     public int length;
-    public int[] value;
+    public long[] value;
     public int size;
 
-    public TAGIntArray(TAGHeader header, byte[] data) {
+    public TAGLongArray(TAGHeader header, byte[] data) {
         this.parent = null;
         this.header = header;
         this.length = ByteBuffer.wrap(Arrays.copyOfRange(data, 0, length_size)).getInt();
-        this.size = this.calculateSize();
-        this.value = new int[this.length];
+        this.size = calculateSize();
+        value = new long[this.length];
         for (int i = 0; i < this.length; i++) {
-            this.value[i] = ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).getInt();
+            this.value[i] = ByteBuffer.wrap(Arrays.copyOfRange(data, length_size + i * data_size, length_size + (i + 1) * data_size)).getLong();
         }
     }
 
-    public TAGIntArray(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
+    public TAGLongArray(TAGComponent parent, TAGHeader header, byte[] data) throws IllegalArgumentException {
         this(header, data);
         this.setParent(parent);
     }
 
-    public TAGIntArray(String name, List<Integer> value) {
+    public TAGLongArray(String name, List<Long> value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.length = value.size();
         this.size = this.calculateSize();
-        this.value = new int[this.length];
+        this.value = new long[this.length];
         for (int i = 0; i < this.length; i++) this.value[i] = value.get(i);
     }
 
-    public TAGIntArray(TAGComponent parent, String name, List<Integer> value) throws IllegalArgumentException {
+    public TAGLongArray(TAGComponent parent, String name, List<Long> value) throws IllegalArgumentException {
         this(name, value);
         this.setParent(parent);
     }
 
-    public TAGIntArray(String name, int[] value) {
+    public TAGLongArray(String name, long[] value) {
         this.parent = null;
         this.header = TAGHeader.getInstance(getTypeId(), name);
         this.length = value.length;
@@ -53,33 +55,21 @@ public class TAGIntArray extends TAGComponent {
         this.value = value.clone();
     }
 
-    public TAGIntArray(TAGComponent parent, String name, int[] value) throws IllegalArgumentException {
+    public TAGLongArray(TAGComponent parent, String name, long[] value) throws IllegalArgumentException {
         this(name, value);
         this.setParent(parent);
     }
 
-    public TAGIntArray(String name) {
+    public TAGLongArray(String name) {
         this(name, new ArrayList<>());
     }
 
-    public TAGIntArray(TAGComponent parent, String name) throws IllegalArgumentException {
+    public TAGLongArray(TAGComponent parent, String name) throws IllegalArgumentException {
         this(parent, name, new ArrayList<>());
     }
 
     private int calculateSize() {
         return length_size + data_size * this.length;
-    }
-
-    public void setValue(int[] value) {
-        this.length = value.length;
-        this.value = value.clone();
-        this.size = this.calculateSize();
-    }
-
-    public void setValue(List<Integer> value) {
-        int[] value_array = new int[value.size()];
-        for (int i = 0; i < value.size(); i++) value_array[i] = value.get(i);
-        this.setValue(value_array);
     }
 
     @Override
@@ -135,7 +125,7 @@ public class TAGIntArray extends TAGComponent {
                 values_bytes = new byte[values_size],
                 result = new byte[getValueSize()];
         for (int i = 0; i < this.length; i++) {
-            byte[] value_bytes = ByteBuffer.allocate(data_size).putInt(this.value[i]).array();
+            byte[] value_bytes = ByteBuffer.allocate(data_size).putLong(this.value[i]).array();
             System.arraycopy(value_bytes, 0, values_bytes, data_size * i, data_size);
         }
         System.arraycopy(length_bytes, 0, result, 0, length_size);
@@ -154,7 +144,7 @@ public class TAGIntArray extends TAGComponent {
         if (!TAGComponent.checkValidParent(parent)) throw new IllegalArgumentException("Invalid type of parent");
         this.parent = parent;
     }
-
+    
     @Override
     public TAGComponent getParent() {
         return this.parent;

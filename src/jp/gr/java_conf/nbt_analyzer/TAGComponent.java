@@ -1,3 +1,5 @@
+package jp.gr.java_conf.nbt_analyzer;
+
 import java.util.Arrays;
 
 /**
