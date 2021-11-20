@@ -130,4 +130,13 @@ public class TAGLongArray extends TAGComponent {
     public TAGComponent getParent() {
         return this.parent;
     }
+
+    @Override
+    public TAGLongArray clone() {
+        TAGLongArray clone = (TAGLongArray) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        clone.value = this.value.clone();
+        return clone;
+    }
 }
