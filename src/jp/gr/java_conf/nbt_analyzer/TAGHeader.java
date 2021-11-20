@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class TAGHeader {
+public class TAGHeader implements Cloneable {
     private static final int type_length = 1;
     private static final int name_size_length = Short.SIZE / Byte.SIZE;
 
@@ -89,6 +89,17 @@ public class TAGHeader {
             System.arraycopy(name_bytes, 0, result, prefix_length, name_size);
         }
         return result;
+    }
+
+    @Override
+    public TAGHeader clone() {
+        TAGHeader clone = null;
+        try {
+            clone = (TAGHeader) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return clone;
     }
 
 }
