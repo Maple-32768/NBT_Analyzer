@@ -99,4 +99,12 @@ public class TAGLong extends TAGComponent {
     public TAGComponent getParent() {
         return this.parent;
     }
+
+    @Override
+    public TAGLong clone() {
+        TAGLong clone = (TAGLong) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        return clone;
+    }
 }
