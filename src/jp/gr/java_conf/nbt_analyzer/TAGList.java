@@ -1,11 +1,7 @@
 package jp.gr.java_conf.nbt_analyzer;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class TAGList extends TAGComponent {
     public static final byte TYPE_ID = 9;
@@ -300,5 +296,15 @@ public class TAGList extends TAGComponent {
     @Override
     public TAGComponent getParent() {
         return this.parent;
+    }
+
+    @Override
+    public TAGList clone() {
+        TAGList clone = (TAGList) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        clone.value = new ArrayList<>();
+        for (TAGComponent c : this.value) clone.add(c.clone());
+        return clone;
     }
 }
