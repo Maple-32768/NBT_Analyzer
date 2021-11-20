@@ -121,4 +121,12 @@ public class TAGEnd extends TAGComponent {
     public TAGComponent getParent() {
         return this.parent;
     }
+
+    @Override
+    public TAGEnd clone() {
+        TAGEnd clone = (TAGEnd) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        return clone;
+    }
 }
