@@ -49,6 +49,18 @@ public class TAGLongArray extends TAGComponent {
         this(name, new ArrayList<>());
     }
 
+    public void setValue(long[] value) {
+        this.length = value.length;
+        this.value = value.clone();
+        this.size = this.calculateSize();
+    }
+
+    public void setValue(List<Long> value) {
+        long[] value_array = new long[value.size()];
+        for (int i = 0; i < value.size(); i++) value_array[i] = value.get(i);
+        this.setValue(value_array);
+    }
+
     private int calculateSize() {
         return length_size + data_size * this.length;
     }
@@ -63,7 +75,7 @@ public class TAGLongArray extends TAGComponent {
         StringBuilder result = new StringBuilder();
         result.append('[');
         for (int i = 0; i < this.length; i++) {
-            if (i != 0 && i + 1 != this.length) result.append(",\u0020");
+            if (i != 0) result.append(",\u0020");
             result.append(this.value[i]);
         }
         return result.append(']').toString();

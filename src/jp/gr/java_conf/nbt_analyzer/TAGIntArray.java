@@ -80,7 +80,7 @@ public class TAGIntArray extends TAGComponent {
         StringBuilder result = new StringBuilder();
         result.append('[');
         for (int i = 0; i < this.length; i++) {
-            if (i != 0 && i + 1 != this.length) result.append(",\u0020");
+            if (i != 0) result.append(",\u0020");
             result.append(this.value[i]);
         }
         return result.append(']').toString();

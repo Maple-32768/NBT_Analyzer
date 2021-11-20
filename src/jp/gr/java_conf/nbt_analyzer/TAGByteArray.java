@@ -80,7 +80,7 @@ public class TAGByteArray extends TAGComponent {
         result.append('[');
         for (int i = 0; i < this.length; i++) {
             if (i != 0) result.append(",\u0020");
-            result.append(String.format("%02x", this.value[i]));
+            result.append(this.value[i]).append("b");
         }
         return result.append(']').toString();
     }

@@ -100,7 +100,7 @@ public class TAGByte extends TAGComponent {
      */
     @Override
     public String toString() {
-        return new String(new byte[]{this.value});
+        return this.value + "b";
     }
 
     @Override
