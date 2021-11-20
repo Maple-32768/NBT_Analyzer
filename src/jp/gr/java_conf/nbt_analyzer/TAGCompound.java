@@ -1,10 +1,6 @@
 package jp.gr.java_conf.nbt_analyzer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class TAGCompound extends TAGComponent {
     public static final byte TYPE_ID = 10;
@@ -238,5 +234,15 @@ public class TAGCompound extends TAGComponent {
     @Override
     public TAGComponent getParent() {
         return this.parent;
+    }
+
+    @Override
+    public TAGCompound clone() {
+        TAGCompound clone = (TAGCompound) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        clone.value = new HashMap<>();
+        for (TAGComponent c : this.value.values()) clone.put(c.clone());
+        return clone;
     }
 }
