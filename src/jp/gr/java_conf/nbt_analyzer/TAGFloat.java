@@ -97,4 +97,12 @@ public class TAGFloat extends TAGComponent {
     public TAGComponent getParent() {
         return this.parent;
     }
+
+    @Override
+    public TAGFloat clone() {
+        TAGFloat clone = (TAGFloat) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        return clone;
+    }
 }
