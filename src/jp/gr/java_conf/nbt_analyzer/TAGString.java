@@ -116,4 +116,12 @@ public class TAGString extends TAGComponent {
     public TAGComponent getParent() {
         return this.parent;
     }
+
+    @Override
+    public TAGString clone() {
+        TAGString clone = (TAGString) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        return clone;
+    }
 }
