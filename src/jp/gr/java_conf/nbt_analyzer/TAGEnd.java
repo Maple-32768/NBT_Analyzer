@@ -1,7 +1,10 @@
 package jp.gr.java_conf.nbt_analyzer;
 
 /**
- * NBTのEndタグを扱う具象クラスです。 * * @author Maple32768 * @version 1.1
+ * NBTのEndタグを扱う具象クラスです。
+ *
+ * @author Maple32768
+ * @version 1.1
  */
 public class TAGEnd extends TAGComponent {
     /**
