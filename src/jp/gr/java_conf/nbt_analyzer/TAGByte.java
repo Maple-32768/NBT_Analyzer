@@ -185,4 +185,12 @@ public class TAGByte extends TAGComponent {
     public TAGComponent getParent() {
         return this.parent;
     }
+
+    @Override
+    public TAGByte clone() {
+        TAGByte clone = (TAGByte) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        return clone;
+    }
 }
