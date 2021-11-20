@@ -1,6 +1,10 @@
 package jp.gr.java_conf.nbt_analyzer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class TAGCompound extends TAGComponent {
     public static final byte TYPE_ID = 10;

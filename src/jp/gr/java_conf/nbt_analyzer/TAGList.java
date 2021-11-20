@@ -1,7 +1,11 @@
 package jp.gr.java_conf.nbt_analyzer;
 
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 public class TAGList extends TAGComponent {
     public static final byte TYPE_ID = 9;
