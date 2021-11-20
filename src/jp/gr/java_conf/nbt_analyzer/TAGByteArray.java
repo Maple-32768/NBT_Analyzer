@@ -143,4 +143,13 @@ public class TAGByteArray extends TAGComponent {
     public TAGComponent getParent() {
         return this.parent;
     }
+
+    @Override
+    public TAGByteArray clone() {
+        TAGByteArray clone = (TAGByteArray) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        clone.value = this.value.clone();
+        return clone;
+    }
 }
