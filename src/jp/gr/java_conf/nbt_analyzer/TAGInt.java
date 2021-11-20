@@ -97,4 +97,12 @@ public class TAGInt extends TAGComponent {
     public TAGComponent getParent() {
         return this.parent;
     }
+
+    @Override
+    public TAGInt clone() {
+        TAGInt clone = (TAGInt) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        return clone;
+    }
 }
