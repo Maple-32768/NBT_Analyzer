@@ -8,7 +8,7 @@ import java.util.Arrays;
  * @author Maple32768
  * @version 1.1
  */
-public abstract class TAGComponent {
+public abstract class TAGComponent implements Cloneable {
 
     private static final byte[] valid_parents_id = {9, 10};
 
@@ -81,6 +81,17 @@ public abstract class TAGComponent {
      * @return 親のNBTオブジェクトまたはnull
      */
     abstract public TAGComponent getParent();
+
+    @Override
+    public TAGComponent clone() {
+        TAGComponent clone = null;
+        try {
+            clone = (TAGComponent) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return clone;
+    }
 
     /**
      * バイト配列からNBTオブジェクトを生成し返します。
