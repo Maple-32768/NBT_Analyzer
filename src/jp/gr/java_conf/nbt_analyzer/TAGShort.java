@@ -97,4 +97,12 @@ public class TAGShort extends TAGComponent {
     public TAGComponent getParent() {
         return null;
     }
+
+    @Override
+    public TAGShort clone() {
+        TAGShort clone = (TAGShort) super.clone();
+        clone.parent = null;
+        clone.header = this.header.clone();
+        return clone;
+    }
 }
