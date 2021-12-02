@@ -3,6 +3,7 @@ package jp.gr.java_conf.nbt_analyzer;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class TAGHeader implements Cloneable {
     private static final int type_length = 1;
@@ -102,4 +103,16 @@ public class TAGHeader implements Cloneable {
         return clone;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TAGHeader tagHeader = (TAGHeader) o;
+        return type == tagHeader.type && name_size == tagHeader.name_size && size == tagHeader.size && tag_name.equals(tagHeader.tag_name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, name_size, tag_name, size);
+    }
 }
