@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class TAGIntArray extends TAGComponent {
     public static final byte TYPE_ID = 11;
@@ -155,5 +156,20 @@ public class TAGIntArray extends TAGComponent {
         clone.header = this.header.clone();
         clone.value = this.value.clone();
         return clone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TAGIntArray)) return false;
+        TAGIntArray that = (TAGIntArray) o;
+        return length == that.length && size == that.size && header.equals(that.header) && Arrays.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(header, length, size);
+        result = 31 * result + Arrays.hashCode(value);
+        return result;
     }
 }

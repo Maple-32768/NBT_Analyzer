@@ -245,4 +245,17 @@ public class TAGCompound extends TAGComponent {
         for (TAGComponent c : this.value.values()) clone.put(c.clone());
         return clone;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TAGCompound)) return false;
+        TAGCompound that = (TAGCompound) o;
+        return size == that.size && header.equals(that.header) && value.equals(that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(header, value, size);
+    }
 }

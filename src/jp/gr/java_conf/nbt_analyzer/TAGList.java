@@ -307,4 +307,17 @@ public class TAGList extends TAGComponent {
         for (TAGComponent c : this.value) clone.add(c.clone());
         return clone;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TAGList)) return false;
+        TAGList tagList = (TAGList) o;
+        return type == tagList.type && length == tagList.length && size == tagList.size && header.equals(tagList.header) && value.equals(tagList.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(header, type, length, value, size);
+    }
 }

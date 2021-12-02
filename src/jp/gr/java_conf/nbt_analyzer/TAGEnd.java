@@ -1,5 +1,7 @@
 package jp.gr.java_conf.nbt_analyzer;
 
+import java.util.Objects;
+
 /**
  * NBTのEndタグを扱う具象クラスです。
  *
@@ -143,5 +145,18 @@ public class TAGEnd extends TAGComponent {
         clone.parent = null;
         clone.header = this.header.clone();
         return clone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TAGEnd)) return false;
+        TAGEnd tagEnd = (TAGEnd) o;
+        return header.equals(tagEnd.header);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(header);
     }
 }

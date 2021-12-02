@@ -2,6 +2,7 @@ package jp.gr.java_conf.nbt_analyzer;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class TAGFloat extends TAGComponent {
     public static final byte TYPE_ID = 5;
@@ -104,5 +105,18 @@ public class TAGFloat extends TAGComponent {
         clone.parent = null;
         clone.header = this.header.clone();
         return clone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TAGFloat)) return false;
+        TAGFloat tagFloat = (TAGFloat) o;
+        return Float.compare(tagFloat.value, value) == 0 && header.equals(tagFloat.header);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(header, value);
     }
 }

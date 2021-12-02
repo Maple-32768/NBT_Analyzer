@@ -3,6 +3,7 @@ package jp.gr.java_conf.nbt_analyzer;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class TAGString extends TAGComponent {
     public static final byte TYPE_ID = 8;
@@ -123,5 +124,18 @@ public class TAGString extends TAGComponent {
         clone.parent = null;
         clone.header = this.header.clone();
         return clone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TAGString)) return false;
+        TAGString tagString = (TAGString) o;
+        return length == tagString.length && size == tagString.size && header.equals(tagString.header) && value.equals(tagString.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(header, length, value, size);
     }
 }

@@ -2,6 +2,7 @@ package jp.gr.java_conf.nbt_analyzer;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * NBTのByteタグを扱う具象クラスです。
@@ -192,5 +193,18 @@ public class TAGByte extends TAGComponent {
         clone.parent = null;
         clone.header = this.header.clone();
         return clone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TAGByte)) return false;
+        TAGByte tagByte = (TAGByte) o;
+        return value == tagByte.value && header.equals(tagByte.header);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(header, value);
     }
 }
